@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
+import { hereMapAPI } from 'src/apis/hereMapAPI';
 @Component({
   selector: 'app-jsmap',
   templateUrl: './jsmap.component.html',
@@ -8,7 +9,7 @@ import onResize from 'simple-element-resize-detector';
 })
 export class JsmapComponent implements OnInit {
   private map?: H.Map;
-
+  public keyAPI = hereMapAPI;
   @ViewChild('map') mapDiv?: ElementRef;
   constructor() {}
 
@@ -17,7 +18,7 @@ export class JsmapComponent implements OnInit {
     if (!this.map && this.mapDiv) {
       // Instantiate a platform, default layers and a map as usual.
       const platform = new H.service.Platform({
-        apikey: 'r5vLK2bvhfo9nyS9zPyqocCEUfqz64N6mleOP6sSNEA',
+        apikey: this.keyAPI.apiKey,
       });
       const layers = platform.createDefaultLayers();
       const map = new H.Map(
