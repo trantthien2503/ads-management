@@ -13,7 +13,8 @@ export class JsmapComponent implements OnInit {
   private map?: H.Map;
   public keyAPI = hereMapAPI;
   @ViewChild('map') mapDiv?: ElementRef;
-  address = 'Invalidenstr 117 Berlin';
+  address =
+    '161/3 Ni Sư Huỳnh Liên, phường 10, Tân Bình, Thành phố Hồ Chí Minh';
   resultAddress: any;
   constructor(private geocodingService: GeocodingService) {
     this.geocodingService
@@ -39,15 +40,25 @@ export class JsmapComponent implements OnInit {
             apikey: this.keyAPI.apiKey,
           });
           const layers = platform.createDefaultLayers();
+          // Tạo bản đồ
           const map = new H.Map(
             this.mapDiv.nativeElement,
             (layers as any).vector.normal.map,
             {
               pixelRatio: window.devicePixelRatio,
               center: center,
-              zoom: 2,
+              zoom: 16,
             }
           );
+          //  Tại marker (điểm) cho bản đồ
+          const position = new H.geo.Point(
+            this.resultAddress.position.lat,
+            this.resultAddress.position.lng
+          );
+
+          const marker = new H.map.Marker(position);
+          map.addObject(marker);
+
           onResize(this.mapDiv.nativeElement, () => {
             map.getViewPort().resize();
           });
