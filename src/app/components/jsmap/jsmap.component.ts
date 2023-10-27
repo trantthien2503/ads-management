@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener,
+  Directive,
+} from '@angular/core';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
 import { hereMapAPI } from 'src/apis/hereMapAPI';
@@ -12,18 +19,13 @@ import { GeocodingService } from 'src/app/services/geocoding.service';
 export class JsmapComponent implements OnInit {
   private map?: H.Map;
   public keyAPI = hereMapAPI;
+  public zoom = 16; //  Chỉ số zoom map
+
   @ViewChild('map') mapDiv?: ElementRef;
   address =
     '161/3 Ni Sư Huỳnh Liên, phường 10, Tân Bình, Thành phố Hồ Chí Minh';
   resultAddress: any;
-  constructor(private geocodingService: GeocodingService) {
-    this.geocodingService
-      .getLocation(this.address)
-      .subscribe((response: any) => {
-        this.resultAddress = response.items[0];
-        console.log('---resultAddress', this.resultAddress);
-      });
-  }
+  constructor(private geocodingService: GeocodingService) {}
 
   ngOnInit() {}
   ngAfterViewInit(): void {
@@ -47,7 +49,7 @@ export class JsmapComponent implements OnInit {
             {
               pixelRatio: window.devicePixelRatio,
               center: center,
-              zoom: 16,
+              zoom: this.zoom,
             }
           );
           //  Tại marker (điểm) cho bản đồ
@@ -65,5 +67,36 @@ export class JsmapComponent implements OnInit {
           this.map = map;
         }
       });
+  }
+
+  /**hàm áp dụng zoom lên bản đồ
+   *
+   * @param zoom
+   */
+  setZoom(zoom: number) {
+    // cập nhật zoom level trên bản đồ
+    this.map?.setZoom(zoom);
+  }
+
+  /** Hàm chuyển số âm thành dương và ngược lại
+   *
+   * @param num
+   * @returns
+   */
+  invertSign(num: number) {
+    if (num < 0) {
+      return -num;
+    } else {
+      return -1 * num;
+    }
+  }
+
+  @HostListener('wheel', ['$event']) // for window scroll events
+  onScroll(event: any) {
+    if (this.zoom > 0 && this.zoom <= 100) {
+      const delta = Math.sign(event.deltaY);
+      this.zoom += this.invertSign(delta);
+      this.setZoom(this.zoom);
+    }
   }
 }
