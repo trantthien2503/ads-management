@@ -4,7 +4,6 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-  Directive,
 } from '@angular/core';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
@@ -17,14 +16,15 @@ import { GeocodingService } from 'src/app/services/geocoding.service';
   styleUrls: ['./jsmap.component.css'],
 })
 export class JsmapComponent implements OnInit {
+  @ViewChild('map') mapDiv?: ElementRef;
   private map?: H.Map;
   public keyAPI = hereMapAPI;
   public zoom = 16; //  Chỉ số zoom map
-
-  @ViewChild('map') mapDiv?: ElementRef;
-  address =
+  // Khai báo mảng lưu các marker
+  markers: H.map.Marker[] = [];
+  public address =
     '161/3 Ni Sư Huỳnh Liên, phường 10, Tân Bình, Thành phố Hồ Chí Minh';
-  resultAddress: any;
+  public resultAddress: any;
   constructor(private geocodingService: GeocodingService) {}
 
   ngOnInit() {}
@@ -64,6 +64,8 @@ export class JsmapComponent implements OnInit {
           onResize(this.mapDiv.nativeElement, () => {
             map.getViewPort().resize();
           });
+
+          new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
           this.map = map;
         }
       });
@@ -91,6 +93,10 @@ export class JsmapComponent implements OnInit {
     }
   }
 
+  /** Sựu hiện scroll zoom bản đồ
+   *
+   * @param event
+   */
   @HostListener('wheel', ['$event']) // for window scroll events
   onScroll(event: any) {
     if (this.zoom > 0 && this.zoom <= 100) {
@@ -98,5 +104,52 @@ export class JsmapComponent implements OnInit {
       this.zoom += this.invertSign(delta);
       this.setZoom(this.zoom);
     }
+  }
+
+  // Khai báo biến lưu trạng thái kéo chuột
+  private isDragging = false;
+
+  // Hàm bắt sự kiện kéo chuột
+  @HostListener('mousedown') onMouseDown() {
+    this.isDragging = true;
+  }
+
+  // Hàm bắt sự kiện thả chuột
+  @HostListener('mouseup') onMouseUp() {
+    this.isDragging = false;
+  }
+
+  // Hàm di chuyển bản đồ khi kéo chuột
+  @HostListener('mousemove') onMouseMove(e: MouseEvent) {
+    if (this.isDragging && e) {
+      const map = this.map;
+      const viewport: any = map?.getViewPort();
+
+      map?.setCenter({
+        lat: e.clientY + viewport?.center.lat,
+        lng: e.clientX + viewport?.center.lng,
+      });
+    }
+  }
+
+  // Xử lý sự kiện click chuột phải
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event: MouseEvent) {
+    if (event) {
+      // Lấy tọa độ click
+      const position: any = this.map?.screenToGeo(event.clientX, event.clientY);
+      // Tạo và thêm marker
+      const marker = new H.map.Marker(position);
+      this.markers.push(marker);
+      this.map?.addObject(marker);
+    }
+  }
+
+  // Hàm xóa tất cả marker
+  clearMarkers() {
+    this.markers.forEach((marker) => {
+      this.map?.removeObject(marker);
+    });
+    this.markers = [];
   }
 }
