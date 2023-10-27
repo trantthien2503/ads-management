@@ -17,6 +17,8 @@ import { GeocodingService } from 'src/app/services/geocoding.service';
 })
 export class JsmapComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
+  @ViewChild('infoWindow') infoWindow?: ElementRef;
+
   private map?: H.Map;
   public keyAPI = hereMapAPI;
   public zoom = 16; //  Chỉ số zoom map
@@ -26,7 +28,8 @@ export class JsmapComponent implements OnInit {
     '161/3 Ni Sư Huỳnh Liên, phường 10, Tân Bình, Thành phố Hồ Chí Minh';
   public resultAddress: any;
   constructor(private geocodingService: GeocodingService) {}
-
+  public selectedMarker: any;
+  public infoWindowContent: string = '';
   ngOnInit() {}
   ngAfterViewInit(): void {
     this.geocodingService
@@ -52,15 +55,6 @@ export class JsmapComponent implements OnInit {
               zoom: this.zoom,
             }
           );
-          //  Tại marker (điểm) cho bản đồ
-          const position = new H.geo.Point(
-            this.resultAddress.position.lat,
-            this.resultAddress.position.lng
-          );
-
-          const marker = new H.map.Marker(position);
-          map.addObject(marker);
-
           onResize(this.mapDiv.nativeElement, () => {
             map.getViewPort().resize();
           });
@@ -151,5 +145,77 @@ export class JsmapComponent implements OnInit {
       this.map?.removeObject(marker);
     });
     this.markers = [];
+  }
+
+  @HostListener('click', ['$event'])
+  onMarkerClick(event: MouseEvent) {
+    // Lấy marker được click
+    const marker = this.getClickedMarker(event);
+    console.log('--getClickedMarker', marker);
+
+    if (marker) {
+      // Đánh dấu là marker đang được chọn
+      this.selectedMarker = marker;
+
+      // Lấy nội dung thông tin
+      this.infoWindowContent = marker.getData();
+      console.log('---- this.selectedMarker', this.selectedMarker);
+      console.log('---- this.infoWindowContent', this.infoWindowContent);
+
+      // Render lại thông tin
+      this.renderInfoWindow();
+    }
+  }
+
+  renderInfoWindow() {
+    // Nếu chưa chọn marker thì dừng
+    if (!this.selectedMarker || !this.infoWindow) return;
+
+    // Lấy thông tin của marker đang chọn
+    const info = this.selectedMarker.getData();
+
+    // Xoá nội dung cũ
+    this.infoWindow.nativeElement.innerHTML = '';
+    console.log('----info', info);
+
+    // Tạo div chứa thông tin mới
+    const content = `
+    <div>
+      <h3>${info.name}</h3>
+      <p>${info.address}</p>
+    </div>
+  `;
+
+    // Thêm nội dung vào div
+    this.infoWindow.nativeElement.innerHTML = content;
+
+    // Vị trí hiển thị
+    const pos = this.selectedMarker.getGeometry().getBoundingBox().getCenter();
+
+    // Cập nhật vị trí
+    this.infoWindow.nativeElement.style.left = pos.x + 'px';
+    this.infoWindow.nativeElement.style.top = pos.y + 'px';
+
+    // Hiển thị div
+    this.infoWindow.nativeElement.classList.add('show');
+  }
+
+  getClickedMarker(event: MouseEvent) {
+    if (event) {
+      // Lấy vị trí click
+      const clickPos = this.map?.screenToGeo(event.clientX, event.clientY);
+      // Duyệt mỗi marker
+      if (clickPos) {
+        const markerPos = new H.map.Marker(clickPos);
+        for (let marker of this.markers) {
+          // Kiểm tra xem vị trí click có trùng với marker ko
+          if (marker) {
+            if (marker.getGeometry() == markerPos.getGeometry()) return marker;
+          }
+        }
+      }
+    }
+    // Nếu không trùng thì trả về undefined
+    return undefined;
   }
 }
