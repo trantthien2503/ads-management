@@ -133,7 +133,8 @@ export class JsmapComponent implements OnInit {
       // Lấy tọa độ click
       const position: any = this.map?.screenToGeo(event.clientX, event.clientY);
       // Tạo và thêm marker
-      const marker = new H.map.Marker(position);
+      const marker: any = new H.map.Marker(position);
+
       this.markers.push(marker);
       this.map?.addObject(marker);
     }
@@ -150,18 +151,13 @@ export class JsmapComponent implements OnInit {
   @HostListener('click', ['$event'])
   onMarkerClick(event: MouseEvent) {
     // Lấy marker được click
-    const marker = this.getClickedMarker(event);
-    console.log('--getClickedMarker', marker);
 
+    const marker = this.getClickedMarker(event);
     if (marker) {
       // Đánh dấu là marker đang được chọn
       this.selectedMarker = marker;
-
       // Lấy nội dung thông tin
       this.infoWindowContent = marker.getData();
-      console.log('---- this.selectedMarker', this.selectedMarker);
-      console.log('---- this.infoWindowContent', this.infoWindowContent);
-
       // Render lại thông tin
       this.renderInfoWindow();
     }
@@ -176,8 +172,6 @@ export class JsmapComponent implements OnInit {
 
     // Xoá nội dung cũ
     this.infoWindow.nativeElement.innerHTML = '';
-    console.log('----info', info);
-
     // Tạo div chứa thông tin mới
     const content = `
     <div>
@@ -200,6 +194,8 @@ export class JsmapComponent implements OnInit {
     this.infoWindow.nativeElement.classList.add('show');
   }
 
+
+
   getClickedMarker(event: MouseEvent) {
     if (event) {
       // Lấy vị trí click
@@ -207,6 +203,7 @@ export class JsmapComponent implements OnInit {
       // Duyệt mỗi marker
       if (clickPos) {
         const markerPos = new H.map.Marker(clickPos);
+
         for (let marker of this.markers) {
           // Kiểm tra xem vị trí click có trùng với marker ko
           if (marker) {
