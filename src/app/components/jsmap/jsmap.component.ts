@@ -21,16 +21,19 @@ export class JsmapComponent implements OnInit {
 
   private map?: H.Map;
   public keyAPI = hereMapAPI;
-  public zoom = 16; //  Chỉ số zoom map
+  public zoom = 12; //  Chỉ số zoom map
   // Khai báo mảng lưu các marker
-  markers: H.map.Marker[] = [];
+  public markers: H.map.Marker[] = [];
   public address =
-    '161/3 Ni Sư Huỳnh Liên, phường 10, Tân Bình, Thành phố Hồ Chí Minh';
+    '64/7 Đường số 2, Phường 3, Quận Gò Vấp, Thành phố Hồ Chí Minh';
   public resultAddress: any;
-  constructor(private geocodingService: GeocodingService) {}
   public selectedMarker: any;
   public infoWindowContent: string = '';
+  private isDragging = false; // Khai báo biến lưu trạng thái kéo chuột
+  constructor(private geocodingService: GeocodingService) {}
+
   ngOnInit() {}
+
   ngAfterViewInit(): void {
     this.geocodingService
       .getLocation(this.address)
@@ -50,7 +53,7 @@ export class JsmapComponent implements OnInit {
             this.mapDiv.nativeElement,
             (layers as any).vector.normal.map,
             {
-              pixelRatio: window.devicePixelRatio,
+              pixelRatio: window.devicePixelRatio || 1,
               center: center,
               zoom: this.zoom,
             }
@@ -100,9 +103,6 @@ export class JsmapComponent implements OnInit {
     }
   }
 
-  // Khai báo biến lưu trạng thái kéo chuột
-  private isDragging = false;
-
   // Hàm bắt sự kiện kéo chuột
   @HostListener('mousedown') onMouseDown() {
     this.isDragging = true;
@@ -126,18 +126,32 @@ export class JsmapComponent implements OnInit {
     }
   }
 
-  // Xử lý sự kiện click chuột phải
+  // Xử lý sự kiện click chuột phải đồng thời tạo 1 marker
   @HostListener('contextmenu', ['$event'])
   onRightClick(event: MouseEvent) {
-    if (event) {
-      // Lấy tọa độ click
-      const position: any = this.map?.screenToGeo(event.clientX, event.clientY);
-      // Tạo và thêm marker
-      const marker: any = new H.map.Marker(position);
+    if (event && this.map) {
+      // Lấy vị trí
+      const position = this.map.screenToGeo(event.clientX, event.clientY);
+      var svgMarkup = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-table" viewBox="0 0 24 24">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+      </svg>`;
+      if (position) {
+        // Tạo marker
+        const marker = new H.map.Marker(position);
+        // var bearsIcon = new H.map.Icon(svgMarkup);
+        // marker.setIcon(bearsIcon);
+        // Thêm vào mảng và bản đồ
+        this.markers.push(marker);
+        this.map.addObject(marker);
 
-      this.markers.push(marker);
-      this.map?.addObject(marker);
+        // Đánh dấu là đang chọn
+        this.selectMarker(marker);
+      }
     }
+  }
+
+  selectMarker(marker: any) {
+    this.selectedMarker = marker;
   }
 
   // Hàm xóa tất cả marker
@@ -153,14 +167,14 @@ export class JsmapComponent implements OnInit {
     // Lấy marker được click
 
     const marker = this.getClickedMarker(event);
-    if (marker) {
-      // Đánh dấu là marker đang được chọn
-      this.selectedMarker = marker;
-      // Lấy nội dung thông tin
-      this.infoWindowContent = marker.getData();
-      // Render lại thông tin
-      this.renderInfoWindow();
-    }
+    // if (marker) {
+    //   // Đánh dấu là marker đang được chọn
+    //   this.selectedMarker = marker;
+    //   // Lấy nội dung thông tin
+    //   this.infoWindowContent = marker.getData();
+    //   // Render lại thông tin
+    //   this.renderInfoWindow();
+    // }
   }
 
   renderInfoWindow() {
@@ -194,23 +208,30 @@ export class JsmapComponent implements OnInit {
     this.infoWindow.nativeElement.classList.add('show');
   }
 
-
-
   getClickedMarker(event: MouseEvent) {
-    if (event) {
-      // Lấy vị trí click
-      const clickPos = this.map?.screenToGeo(event.clientX, event.clientY);
-      // Duyệt mỗi marker
-      if (clickPos) {
-        const markerPos = new H.map.Marker(clickPos);
+    if (event && this.map) {
+      const coords = this.map.screenToGeo(event.clientX, event.clientY);
 
-        for (let marker of this.markers) {
-          // Kiểm tra xem vị trí click có trùng với marker ko
-          if (marker) {
-            if (marker.getGeometry() == markerPos.getGeometry()) return marker;
-          }
+      // var coords =  this.map.screenToGeo(event.currentPointer.viewportX, event.currentPointer.viewportY);
+      let minDist = 1000;
+      let nearest_text = '*None*';
+      let markerDist;
+      let objects: any = this.map.getObjects();
+      let len = this.map.getObjects().length;
+      let i;
+      // iterate over objects and calculate distance between them
+      for (i = 0; i < len; i += 1) {
+        markerDist = objects[i].getGeometry().distance(coords);
+
+        if (markerDist < minDist) {
+          minDist = markerDist;
+          nearest_text = objects[i].getData();
+          console.log('---nearest_text', nearest_text);
+
         }
       }
+      // Reset lựa chọn
+      return null;
     }
     // Nếu không trùng thì trả về undefined
     return undefined;
