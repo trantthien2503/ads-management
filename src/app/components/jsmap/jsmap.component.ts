@@ -54,10 +54,26 @@ export class JsmapComponent implements OnInit {
             (layers as any).vector.normal.map,
             {
               pixelRatio: window.devicePixelRatio || 1,
-              center: center,
+              center: { lat: 49.6107, lng: 6.1314 },
               zoom: this.zoom,
             }
           );
+          const landmarks = [
+            { name: 'Notre-Dame Cathedral', lat: 49.610364, lng: 6.129416 },
+            { name: 'Grand Ducal Palace', lat: 49.611204, lng: 6.13072 },
+            { name: 'Casemates du Bock', lat: 49.611847, lng: 6.131925 },
+            { name: 'Adolphe Bridge', lat: 49.6083, lng: 6.127109 },
+          ];
+
+          landmarks.forEach((landmark) => {
+            const marker = new H.map.Marker({
+              lat: landmark.lat,
+              lng: landmark.lng,
+            });
+            marker.setData(landmark.name);
+            map.addObject(marker);
+          });
+
           onResize(this.mapDiv.nativeElement, () => {
             map.getViewPort().resize();
           });
@@ -132,9 +148,6 @@ export class JsmapComponent implements OnInit {
     if (event && this.map) {
       // Lấy vị trí
       const position = this.map.screenToGeo(event.clientX, event.clientY);
-      var svgMarkup = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-table" viewBox="0 0 24 24">
-        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
-      </svg>`;
       if (position) {
         // Tạo marker
         const marker = new H.map.Marker(position);
@@ -227,7 +240,6 @@ export class JsmapComponent implements OnInit {
           minDist = markerDist;
           nearest_text = objects[i].getData();
           console.log('---nearest_text', nearest_text);
-
         }
       }
       // Reset lựa chọn
