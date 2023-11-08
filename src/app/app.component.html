@@ -22,8 +22,21 @@
             </a>
           </li>
           <li>
-            <a class="auth-modal-toggle btn btn-primary ripple-surface ms-2 me-1"
+            <a *ngIf="!userCurrent" class="auth-modal-toggle btn btn-primary ripple-surface ms-2 me-1"
               data-auth-modal-tab="sign-in" (click)="openLogin()">Login</a>
+            <button *ngIf="userCurrent" mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+              <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu x-position="before" #menu="matMenu">
+              <button mat-menu-item routerLink="/">
+                <mat-icon>home</mat-icon>
+                Home
+              </button>
+              <button mat-menu-item routerLink="/game">
+                <mat-icon>gamepad</mat-icon>
+                Play
+              </button>
+            </mat-menu>
           </li>
         </ul>
       </span>

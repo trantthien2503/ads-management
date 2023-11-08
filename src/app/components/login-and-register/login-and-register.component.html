@@ -6,13 +6,13 @@
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link" [ngClass]="!isLogin? 'active show': ''" (click)="isLogin = false;" data-mdb-toggle="pill"
-        role="button" aria-selected="true">Register</a>
+        role="button" aria-selected="true" >Register</a>
     </li>
   </ul>
 </div>
 <mat-dialog-content>
-  <app-login-form *ngIf="isLogin"></app-login-form>
-  <app-register-form *ngIf="!isLogin"></app-register-form>
+  <app-login-form *ngIf="isLogin" (isLoginSuccess)="isLoginSuccess($event)"></app-login-form>
+  <app-register-form *ngIf="!isLogin" (isLoginSuccess)="isLoginSuccess($event)" (isRegisterSuccess)="isRegisterSuccess($event)"></app-register-form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

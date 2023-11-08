@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -7,8 +7,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ReCaptcha2Component } from 'ngx-captcha';
 import { captcha } from 'src/apis/captcha';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-register-form',
@@ -16,6 +16,9 @@ import { captcha } from 'src/apis/captcha';
   styleUrls: ['./register-form.component.css'],
 })
 export class RegisterFormComponent implements OnInit {
+  @Output() isRegisterSuccess = new EventEmitter();
+  @Output() isLoginSuccess = new EventEmitter();
+
   @ViewChild('captchaElem') captchaElem: any;
 
   public roleUsers = [
@@ -47,7 +50,11 @@ export class RegisterFormComponent implements OnInit {
     autoLogin: FormControl<boolean>;
     role: FormControl<number>;
   }>;
-  constructor(private fb: NonNullableFormBuilder) {
+
+  constructor(
+    private fb: NonNullableFormBuilder,
+    private authService: AuthService
+  ) {
     this.siteKey = captcha.siteKey;
     this.registerForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
@@ -75,8 +82,25 @@ export class RegisterFormComponent implements OnInit {
 
   register() {
     if (this.registerForm.valid) {
-      let dataRegister = this.registerForm.value;
-      console.log('---dataRegister', dataRegister);
+      let dataRegister = {
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password,
+        phoneNumber: this.registerForm.value.phoneNumber,
+        role: this.registerForm.value.role,
+      };
+      this.authService.register(dataRegister).subscribe((response: any) => {
+        if(response.user){
+          if(this.registerForm.value.autoLogin){
+            this.authService.login(response.user.email, response.user.password).subscribe((responseChild: any)=>{
+              if(responseChild.user){
+                this.isLoginSuccess.emit({user: responseChild.user})
+              }
+            })
+          }else{
+            this.isRegisterSuccess.emit({data: null})
+          }
+        }
+      });
     }
   }
 }
