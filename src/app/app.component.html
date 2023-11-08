@@ -1,1 +1,38 @@
-<app-jsmap></app-jsmap>
+<div class="main w-100 h-100">
+  <div id="mdb-navbar" class="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-2">
+    <div class="container-fluid">
+      <button id="sidenav-toggler" data-mdb-toggle="sidenav" data-mdb-target="#mdb-sidenav" type="button"
+        class="btn shadow-0 p-0 me-3" aria-expanded="false"><i class="fas fa-bars fa-lg"></i></button>
+      <a class="navbar-brand me-2" id="mdb-navbar-brand-logo" href="https://mdbootstrap.com/">
+        <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height="16" alt="" loading="lazy"
+          style="margin-top: -1px">
+      </a>
+      <span id="dpl-navbar-new-right-buttons" class="navbar-nav ms-auto d-flex flex-row">
+        <ul id="main-navbar" class="nav navbar-nav nav-flex-icons ml-auto ms-auto flex-row">
+          <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
+            <a class="nav-link dropdown-toggle" id="new-mdb-technologies-dropdown" role="button"
+              data-mdb-toggle="dropdown" aria-expanded="false">
+              Báo cáo
+            </a>
+          </li>
+          <li class="nav-item me-3 me-lg-0" alt="Pricing" id="navbar-static-support">
+            <a class="nav-link" href="/pro/">
+              <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
+              <i class="fas fa-gem d-inline-block d-lg-none"></i>
+            </a>
+          </li>
+          <li>
+            <a class="auth-modal-toggle btn btn-primary ripple-surface ms-2 me-1"
+              data-auth-modal-tab="sign-in" (click)="openLogin()">Login</a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>
+
+  <div class="main-layout mdb-docs-layout">
+    <div class="container-fluid w-100 h-100">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

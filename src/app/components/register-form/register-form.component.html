@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="registerForm">
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example1">Email</label>
+    <input type="email" class="form-control" formControlName="email" />
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example2">Password</label>
+    <input type="password" class="form-control" formControlName="password" />
+  </div>
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example2">Xác minh Password</label>
+    <input type="password" class="form-control" formControlName="checkPassword" />
+  </div>
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example2">Số điện thoại</label>
+    <input type="text" class="form-control" formControlName="phoneNumber" />
+  </div>
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example2">Phân hệ</label>
+    <!-- <input type="datetime" class="form-control" /> -->
+    <select class="form-select" aria-label="Default select example" formControlName="role">
+      <option *ngFor="let role of roleUsers" [value]="role.role">{{role.label}}</option>
+    </select>
+  </div>
+
+  <div class="form-outline mb-4">
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [size]="'normal'" [hl]="'en'" [theme]="'light'"
+      formControlName="captcha">
+    </ngx-recaptcha2>
+  </div>
+  <div class="row m-0 p-0 mb-4 d-flex align-items-center">
+    <button type="button" class="btn btn-primary btn-block" (ngSubmit)="register()">Register</button>
+  </div>
+</form>

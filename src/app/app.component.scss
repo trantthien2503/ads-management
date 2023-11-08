@@ -1,0 +1,11 @@
+.main {
+  position: relative;
+  .navbar {
+    height: 10%;
+    position: relative;
+  }
+  .main-layout {
+    height: calc(100% - 10%);
+    position: relative;
+  }
+}

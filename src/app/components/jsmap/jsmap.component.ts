@@ -28,6 +28,7 @@ export class JsmapComponent implements OnInit {
     '64/7 Đường số 2, Phường 3, Quận Gò Vấp, Thành phố Hồ Chí Minh';
   public resultAddress: any;
   public selectedMarker: any;
+  public positionMarker: any; // Dùng để lưu vị trí mới chọn
   public infoWindowContent: string = '';
   private isDragging = false; // Khai báo biến lưu trạng thái kéo chuột
   constructor(private geocodingService: GeocodingService) {}
@@ -178,21 +179,23 @@ export class JsmapComponent implements OnInit {
   @HostListener('click', ['$event'])
   onMarkerClick(event: MouseEvent) {
     // Lấy marker được click
-
     const marker = this.getClickedMarker(event);
-    // if (marker) {
-    //   // Đánh dấu là marker đang được chọn
-    //   this.selectedMarker = marker;
-    //   // Lấy nội dung thông tin
-    //   this.infoWindowContent = marker.getData();
-    //   // Render lại thông tin
-    //   this.renderInfoWindow();
-    // }
+    if (marker) {
+      // Đánh dấu là marker đang được chọn
+      this.selectedMarker = marker;
+      // Lấy nội dung thông tin
+      this.infoWindowContent = marker.getData();
+      // Render lại thông tin
+      this.renderInfoWindow();
+    } else {
+      // this.selectedMarker = ;
+      this.infoWindowContent = '';
+    }
   }
 
   renderInfoWindow() {
     // Nếu chưa chọn marker thì dừng
-    if (!this.selectedMarker || !this.infoWindow) return;
+    if (!this.selectedMarker || !this.infoWindow || !this.map) return;
 
     // Lấy thông tin của marker đang chọn
     const info = this.selectedMarker.getData();
@@ -201,21 +204,19 @@ export class JsmapComponent implements OnInit {
     this.infoWindow.nativeElement.innerHTML = '';
     // Tạo div chứa thông tin mới
     const content = `
-    <div>
-      <h3>${info.name}</h3>
-      <p>${info.address}</p>
-    </div>
-  `;
+      <div>
+        <h3>${info}</h3>
+      </div>
+    `;
 
     // Thêm nội dung vào div
     this.infoWindow.nativeElement.innerHTML = content;
 
-    // Vị trí hiển thị
-    const pos = this.selectedMarker.getGeometry().getBoundingBox().getCenter();
 
     // Cập nhật vị trí
-    this.infoWindow.nativeElement.style.left = pos.x + 'px';
-    this.infoWindow.nativeElement.style.top = pos.y + 'px';
+    this.infoWindow.nativeElement.style.position = 'absolute';
+    this.infoWindow.nativeElement.style.left = 50 + 'px';
+    this.infoWindow.nativeElement.style.top = 50 + 'px';
 
     // Hiển thị div
     this.infoWindow.nativeElement.classList.add('show');
@@ -224,9 +225,7 @@ export class JsmapComponent implements OnInit {
   getClickedMarker(event: MouseEvent) {
     if (event && this.map) {
       const coords = this.map.screenToGeo(event.clientX, event.clientY);
-
-      // var coords =  this.map.screenToGeo(event.currentPointer.viewportX, event.currentPointer.viewportY);
-      let minDist = 1000;
+      let minDist = 100; // gần 100m
       let nearest_text = '*None*';
       let markerDist;
       let objects: any = this.map.getObjects();
@@ -235,11 +234,10 @@ export class JsmapComponent implements OnInit {
       // iterate over objects and calculate distance between them
       for (i = 0; i < len; i += 1) {
         markerDist = objects[i].getGeometry().distance(coords);
-
         if (markerDist < minDist) {
           minDist = markerDist;
           nearest_text = objects[i].getData();
-          console.log('---nearest_text', nearest_text);
+          return objects[i];
         }
       }
       // Reset lựa chọn
