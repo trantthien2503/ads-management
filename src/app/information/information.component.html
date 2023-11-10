@@ -1,0 +1,82 @@
+<div *ngIf="userProfileForm" class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Thông tin cá nhân</h4>
+            <p class="card-category">Hoàn thành profile của bạn</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="userProfileForm">
+              <div class="row">
+                <div class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email" (blur)="updateUser()">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password" (blur)="updateUser()">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Số điện thoại</mat-label>
+                    <input matInput formControlName="phoneNumber" (blur)="updateUser()">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Phân hệ</mat-label>
+                    <mat-select formControlName="role" (ngModelChange)="updateUser()">
+                      <mat-option *ngFor="let role of roleUsers" [value]="role.role">{{role.label}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="userCurrent.role == 2 || userCurrent.role == 3" class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Quận</mat-label>
+                    <mat-select formControlName="district" (ngModelChange)="chooseDistrict($event); updateUser()">
+                      <mat-option *ngFor="let district of districts"
+                        [value]="district.code">{{district.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="userCurrent.role == 2" class="col-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Phường</mat-label>
+                    <mat-select formControlName="ward" (ngModelChange)="updateUser()">
+                      <mat-option *ngFor="let ward of wards"
+                        [value]="ward.code">{{ward.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" src="./assets/img/faces/marc.jpg" />
+            </a>
+          </div>
+          <div class="card-body">
+            <h6 class="card-category text-gray">CEO / Co-Founder</h6>
+            <h4 class="card-title">Alec Thompson</h4>
+            <p class="card-description">
+              Don't be scared of the truth because we need to restart the human foundation in truth And I love you like
+              Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+            </p>
+            <a href="javascript:void(0)" class="btn btn-danger btn-round">Follow</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

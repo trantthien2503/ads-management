@@ -9,35 +9,110 @@
       </a>
       <span id="dpl-navbar-new-right-buttons" class="navbar-nav ms-auto d-flex flex-row">
         <ul id="main-navbar" class="nav navbar-nav nav-flex-icons ml-auto ms-auto flex-row">
-          <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
-            <a class="nav-link dropdown-toggle" id="new-mdb-technologies-dropdown" role="button"
-              data-mdb-toggle="dropdown" aria-expanded="false">
-              Báo cáo
-            </a>
-          </li>
-          <li class="nav-item me-3 me-lg-0" alt="Pricing" id="navbar-static-support">
-            <a class="nav-link" href="/pro/">
-              <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
-              <i class="fas fa-gem d-inline-block d-lg-none"></i>
-            </a>
-          </li>
+          <ng-container *ngIf="!userCurrent">
+            <ng-template [ngTemplateOutlet]="templateRole1"></ng-template>
+          </ng-container>
+          <ng-container *ngIf="userCurrent">
+            <ng-container [ngSwitch]="userCurrent.role">
+              <ng-container *ngSwitchCase="2"> <ng-template [ngTemplateOutlet]="templateRole2"></ng-template>
+              </ng-container>
+              <ng-container *ngSwitchCase="3"> <ng-template [ngTemplateOutlet]="templateRole3"></ng-template>
+              </ng-container>
+              <ng-container *ngSwitchCase="4"> <ng-template [ngTemplateOutlet]="templateRole4"></ng-template>
+              </ng-container>
+            </ng-container>
+          </ng-container>
           <li>
             <a *ngIf="!userCurrent" class="auth-modal-toggle btn btn-primary ripple-surface ms-2 me-1"
               data-auth-modal-tab="sign-in" (click)="openLogin()">Login</a>
-            <button *ngIf="userCurrent" mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
-              <mat-icon>menu</mat-icon>
-            </button>
-            <mat-menu x-position="before" #menu="matMenu">
-              <button mat-menu-item routerLink="/">
-                <mat-icon>home</mat-icon>
-                Home
+            <ng-container *ngIf="userCurrent">
+              <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+                <mat-icon>people</mat-icon>
               </button>
-              <button mat-menu-item routerLink="/game">
-                <mat-icon>gamepad</mat-icon>
-                Play
-              </button>
-            </mat-menu>
+              <mat-menu style="z-index: 9999 !important;" x-position="after" #menu="matMenu">
+                <button mat-menu-item routerLink="/information">
+                  <mat-icon>send</mat-icon>
+                  {{userCurrent.email}}
+                </button>
+                <button mat-menu-item routerLink="/information">
+                  <mat-icon>edit</mat-icon>
+                  Thông tin
+                </button>
+                <button mat-menu-item (click)="logout()">
+                  <mat-icon>backspace</mat-icon>
+                  Đăng xuất
+                </button>
+              </mat-menu>
+            </ng-container>
           </li>
+          <ng-template #templateRole1>
+            <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
+              <a class="nav-link" role="button">
+                Báo cáo
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button">
+                <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
+              </a>
+            </li>
+          </ng-template>
+          <ng-template #templateRole2>
+            <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
+              <a class="nav-link" role="button" routerLink="/ward-officials/list-of-ads">
+                Danh sách điểm/bảng ADS
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/ward-officials/report-from-people">
+                <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/ward-officials/licensing">
+                <span class="d-none d-lg-inline-block ml-1">Cấp phép ADS</span>
+              </a>
+            </li>
+          </ng-template>
+          <ng-template #templateRole3>
+            <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
+              <a class="nav-link" role="button" routerLink="/district-officer/list-of-ads">
+                Danh sách điểm/bảng ADS
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/district-officer/report-from-people">
+                <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/district-officer/licensing">
+                <span class="d-none d-lg-inline-block ml-1">Cấp phép ADS</span>
+              </a>
+            </li>
+          </ng-template>
+          <ng-template #templateRole4>
+            <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
+              <a class="nav-link" role="button" routerLink="/department-staff/manage-lists">
+                Quản lý danh sách
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/department-staff/licensing-required">
+                <span class="d-none d-lg-inline-block ml-1">Yêu cầu cấp phép</span>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" role="button" routerLink="/department-staff/statistical">
+                <span class="d-none d-lg-inline-block ml-1">Xem thống kê</span>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0" routerLink="/department-staff/account">
+              <a class="nav-link" role="button">
+                <span class="d-none d-lg-inline-block ml-1">Tạo tài khoản</span>
+              </a>
+            </li>
+          </ng-template>
         </ul>
       </span>
     </div>

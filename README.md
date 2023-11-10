@@ -25,3 +25,22 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Note userRole
+1: Người dân (people)
+2: Cán bộ phường (ward-officials)
+3: Cán bộ Quận (district-officer)
+4: Cán bộ Sở (department-staff)
+
+## Tài khoản đăng nhâp (email/passs)
+People:
+trantthien2503@gmail.com 1234567
+
+Ward-officials
+phuong1@gmail.com 1234567
+
+District-officer
+quan1@gmail.com 1234567
+
+Department-staff
+boso1@gmail.com 1234567

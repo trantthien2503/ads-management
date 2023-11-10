@@ -17,7 +17,6 @@ export class AuthService {
    * @returns
    */
   login(email: any, password: any) {
-
     return this.httpClient.post<any>(`${this.SERVERB_URL}/api/users/login`, {
       email: email,
       password: password,
@@ -26,5 +25,15 @@ export class AuthService {
 
   register(dataRegister: object) {
     return this.httpClient.post<any>(`${this.SERVERB_URL}/api/users/register`, dataRegister);
+  }
+
+
+  updateUser(idUser: any, dataUpdate: object ){
+    let post = {
+      field: 'users',
+      id: idUser,
+      data_update: dataUpdate
+    }
+    return this.httpClient.post<any>(`${this.SERVERB_URL}/api/update-by-fields`, post);
   }
 }
