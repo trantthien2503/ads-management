@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="row p-0 m-0 d-flex justify-content-center">
+    <div class="col-6 p-0 m-0">
+      <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+        <mat-card class="box">
+          <mat-card-header>
+            <mat-card-title>Báo cáo vấn đề bảng ADS</mat-card-title>
+          </mat-card-header>
+          <form [formGroup]="reportForm" class="example-form p-2">
+            <mat-card-content>
+              <mat-form-field class="example-full-width">
+                <mat-label>Hình thức báo cáo</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option [value]="type.value" *ngFor="let type of typeReports">{{type.label}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Họ tên người báo cáo</mat-label>
+                <input matInput formControlName="full_name" placeholder="Nhập họ tên người báo cáo">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="Nhập email">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Điện thoại liên lạc</mat-label>
+                <input matInput formControlName="phone_number" placeholder="Nhập số điện thoại liên lạc">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Thuộc quận</mat-label>
+                <mat-select formControlName="to_district" (ngModelChange)="chooseDistrict($event);">
+                  <mat-option *ngFor="let district of districts" [value]="district.code">{{district.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Thuộc phường</mat-label>
+                <mat-select formControlName="to_ward">
+                  <mat-option *ngFor="let ward of wards" [value]="ward.code">{{ward.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <editor apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
+                [init]="{ plugins: 'lists link image table code help wordcount', placeholder: 'Nhập nội dung báo cáo'}"
+                formControlName="content">
+              </editor>
+
+              <ng-template [ngTemplateOutlet]="templateImages"></ng-template>
+            </mat-card-content>
+            <button mat-stroked-button color="accent" class="btn-block mt-2" (submit)="submitForm()">Gửi</button>
+          </form>
+        </mat-card>
+        <ng-template #templateImages>
+          <div class="row p-0 m-0 mt-2">
+            <ng-container *ngFor="let image of images; index as i ">
+              <div class="col-6 p-0 m-0">
+                <div class="main-image">
+                  <div class="image w-100 h-100">
+                    <input [id]="'image'+i" type="file" accept=".jpg" style="display: none;" (change)="changeImage(i, $event)">
+                    <img width="100%" height="100%" [src]="image.src" [alt]="image.alt">
+                  </div>
+                  <div class="text-click justify-content-center align-items-center">
+                    <span role="button" (click)="uploadImage(i);">Tải ảnh từ máy <mat-icon>cloud_upload</mat-icon></span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

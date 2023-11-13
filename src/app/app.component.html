@@ -9,9 +9,6 @@
       </a>
       <span id="dpl-navbar-new-right-buttons" class="navbar-nav ms-auto d-flex flex-row">
         <ul id="main-navbar" class="nav navbar-nav nav-flex-icons ml-auto ms-auto flex-row">
-          <ng-container *ngIf="!userCurrent">
-            <ng-template [ngTemplateOutlet]="templateRole1"></ng-template>
-          </ng-container>
           <ng-container *ngIf="userCurrent">
             <ng-container [ngSwitch]="userCurrent.role">
               <ng-container *ngSwitchCase="2"> <ng-template [ngTemplateOutlet]="templateRole2"></ng-template>
@@ -19,6 +16,8 @@
               <ng-container *ngSwitchCase="3"> <ng-template [ngTemplateOutlet]="templateRole3"></ng-template>
               </ng-container>
               <ng-container *ngSwitchCase="4"> <ng-template [ngTemplateOutlet]="templateRole4"></ng-template>
+              </ng-container>
+              <ng-container *ngSwitchDefault> <ng-template [ngTemplateOutlet]="templateRole1"></ng-template>
               </ng-container>
             </ng-container>
           </ng-container>
@@ -47,12 +46,12 @@
           </li>
           <ng-template #templateRole1>
             <li class="nav-item me-3 me-lg-0 d-none d-sm-inline-block dropdown">
-              <a class="nav-link" role="button">
+              <a class="nav-link" role="button" routerLink="/people/report">
                 Báo cáo
               </a>
             </li>
             <li class="nav-item me-3 me-lg-0">
-              <a class="nav-link" role="button">
+              <a class="nav-link" role="button" routerLink="/people/reported">
                 <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
               </a>
             </li>

@@ -1,14 +1,27 @@
+import { ReportComponent } from './report/report.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PeopleComponent } from './people.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 import { MaterialModule } from '../material.module';
+import { ReportedComponent } from './reported/reported.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
   {
     path: '',
-    component: PeopleComponent
+    component: PeopleComponent,
+  },
+  {
+    path: 'report',
+    component: ReportComponent,
+  },
+  {
+    path: 'reported',
+    component: ReportedComponent,
   },
 ];
 
@@ -18,7 +31,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule,
     MaterialModule,
+    EditorModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
-  declarations: [PeopleComponent]
+  declarations: [PeopleComponent, ReportComponent, ReportedComponent],
 })
-export class PeopleModule { }
+export class PeopleModule {}
