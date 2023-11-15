@@ -53,7 +53,7 @@
 
               <ng-template [ngTemplateOutlet]="templateImages"></ng-template>
             </mat-card-content>
-            <button mat-stroked-button color="accent" class="btn-block mt-2" (submit)="submitForm()">Gửi</button>
+            <button mat-stroked-button color="accent" class="btn-block mt-2" (click)="submitForm()">Gửi</button>
           </form>
         </mat-card>
         <ng-template #templateImages>
@@ -63,7 +63,7 @@
                 <div class="main-image">
                   <div class="image w-100 h-100">
                     <input [id]="'image'+i" type="file" accept=".jpg" style="display: none;" (change)="changeImage(i, $event)">
-                    <img width="100%" height="100%" [src]="image.src" [alt]="image.alt">
+                    <img width="100%" height="100%" style="object-fit: contain" [src]="image.src" [alt]="image.alt">
                   </div>
                   <div class="text-click justify-content-center align-items-center">
                     <span role="button" (click)="uploadImage(i);">Tải ảnh từ máy <mat-icon>cloud_upload</mat-icon></span>
@@ -77,3 +77,5 @@
     </div>
   </div>
 </div>
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

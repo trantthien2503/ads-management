@@ -31,6 +31,8 @@
 
 .main-image {
   padding: 12px;
+  width: 24rem;
+  height: 18rem;
   position: relative;
 }
 .main-image:hover .text-click {

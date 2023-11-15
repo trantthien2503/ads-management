@@ -5,7 +5,9 @@ import {
   NonNullableFormBuilder,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, ReplaySubject } from 'rxjs';
+import { CrudService } from 'src/app/services/crud.service';
 import { ImagesService } from 'src/app/services/images.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
@@ -44,23 +46,27 @@ export class ReportComponent implements OnInit {
   }>;
   public images: Array<any> = [
     {
-      src: 'assets/images/default-thumbnail.jpg',
+      src: 'https://storage.googleapis.com/resful-api-38eda.appspot.com/images/default-thumbnail.jpg',
       label: 'Ảnh mặc định 1',
     },
     {
-      src: 'assets/images/default-thumbnail.jpg',
+      src: 'https://storage.googleapis.com/resful-api-38eda.appspot.com/images/default-thumbnail.jpg',
       label: 'Ảnh mặc định 1',
     },
   ];
   public districts: any = [];
   public wards: any = [];
+  public loading = true;
+
   constructor(
     private fb: NonNullableFormBuilder,
     private provinceService: ProvinceService,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private crudService: CrudService,
+    private _snackBar: MatSnackBar
   ) {
     this.reportForm = this.fb.group({
-      type: [1, [Validators.required]],
+      type: [0, [Validators.required]],
       full_name: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phone_number: ['', [Validators.required]],
@@ -91,17 +97,20 @@ export class ReportComponent implements OnInit {
     document.getElementById(`image${index}`)?.click();
   }
 
+  /** Hàm thực hiện cập nhật ảnh tải lển server và lấy đường dẫn ảnh khi đã upload xong
+   * @param inde: thứ tự ảnh trong mảng ảnh báo cáo
+   * @param event: sự kiện file từ input type: file trả về
+   */
   changeImage(index: number, event: any) {
     if (event) {
       const selectedImageFile = event.target.files[0];
-
       const formData = new FormData();
       formData.append('image', selectedImageFile);
       this.imagesService.uploadImage(formData).subscribe(
         (response) => {
-          console.log('Image uploaded successfully');
-          console.log('---response', response);
-
+          if (response.image_url) {
+            this.images[index].src = response.image_url;
+          }
         },
         (error) => {
           console.error('Error uploading image:', error);
@@ -125,13 +134,29 @@ export class ReportComponent implements OnInit {
   }
 
   submitForm() {
+    this.loading = false;
     if (this.reportForm.valid) {
       let data = {
         ...this.reportForm.value,
         isProcess: false,
         images: this.images,
       };
-      console.log('---submitForm', data);
+      this.crudService.add({ field: 'reports', data: data }).subscribe(
+        (response: any) => {
+          if (response) {
+            console.log('---submitForm', response);
+            this.loading = true;
+            this.openSnackBar('Đã gửi thành công báo cáo', 'Ok')
+          }
+        },
+        (error) => (this.loading = true)
+      );
     }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
 }

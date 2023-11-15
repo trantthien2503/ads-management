@@ -7,9 +7,21 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { LoginAndRegisterComponent } from './login-and-register/login-and-register.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-const component = [JsmapComponent, LoginFormComponent, RegisterFormComponent, LoginAndRegisterComponent];
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
+const component = [
+  JsmapComponent,
+  LoginFormComponent,
+  RegisterFormComponent,
+  LoginAndRegisterComponent,
+  MatSpinnerOverlayComponent,
+];
 @NgModule({
-  imports: [CommonModule, MaterialModule, NgxCaptchaModule, FormsModule, ReactiveFormsModule
+  imports: [
+    CommonModule,
+    MaterialModule,
+    NgxCaptchaModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: component,
   exports: component,
