@@ -8,6 +8,8 @@ import { LoginAndRegisterComponent } from './login-and-register/login-and-regist
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
+import { GoogleMapsModule } from '@angular/google-maps'
+
 const component = [
   JsmapComponent,
   LoginFormComponent,
@@ -22,6 +24,7 @@ const component = [
     NgxCaptchaModule,
     FormsModule,
     ReactiveFormsModule,
+    GoogleMapsModule
   ],
   declarations: component,
   exports: component,

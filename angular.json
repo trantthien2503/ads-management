@@ -26,8 +26,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.scss"],
             "scripts": [
-              "node_modules/here-js-api/scripts/mapsjs-core.js",
-              "node_modules/here-js-api/scripts/mapsjs-service.js"
+
             ]
           },
           "configurations": {

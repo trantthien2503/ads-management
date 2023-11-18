@@ -8,6 +8,7 @@ import { ComponentsModule } from './components/components.module';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorModule } from '@tinymce/tinymce-angular';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -17,7 +18,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     HttpClientModule,
     ComponentsModule,
     MaterialModule,
-    EditorModule
+    EditorModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent],
