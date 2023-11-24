@@ -9,13 +9,17 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { GoogleMapsModule } from '@angular/google-maps'
-
+import { DetailReportComponent } from './detail-report/detail-report.component';
+import { NgZorroAntModule } from '../ng-zorro-ant.module';
+import * as mapboxgl from 'mapbox-gl';
+(mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
   LoginFormComponent,
   RegisterFormComponent,
   LoginAndRegisterComponent,
   MatSpinnerOverlayComponent,
+  DetailReportComponent
 ];
 @NgModule({
   imports: [
@@ -24,7 +28,8 @@ const component = [
     NgxCaptchaModule,
     FormsModule,
     ReactiveFormsModule,
-    GoogleMapsModule
+    NgZorroAntModule,
+    GoogleMapsModule,
   ],
   declarations: component,
   exports: component,

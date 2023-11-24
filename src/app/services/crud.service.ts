@@ -20,4 +20,26 @@ export class CrudService {
       data
     );
   }
+
+  find(field: string, search_field: string, search_value: string){
+    const data = {
+      field,
+      search_field,
+      search_value
+    }
+    return this.httpClient.post<any>(
+      `${this.SERVER_URL}/api/search-by-fields`,
+      data
+    );
+  }
+
+  get(field: string){
+    const data = {
+      field
+    }
+     return this.httpClient.post<any>(
+      `${this.SERVER_URL}/api/get-data-by-fields`,
+      data
+    );
+  }
 }

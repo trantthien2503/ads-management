@@ -5,9 +5,26 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ProvinceService {
-  public PROVINCEURL = 'https://provinces.open-api.vn/api/p/79?depth=3';
+  public PROVINCEURL = 'https://provinces.open-api.vn/api/';
   constructor(private httpClient: HttpClient) {}
   getProvenceHCM() {
-    return this.httpClient.get<any>(this.PROVINCEURL);
+    const url = this.PROVINCEURL + `p/79?depth=3`;
+    return this.httpClient.get<any>(url);
+  }
+
+  /** Lấy thông tin quận
+   *
+   */
+  getDistrict(code: number) {
+    const url = this.PROVINCEURL + `d/${code}`;
+    return this.httpClient.get<any>(url);
+  }
+
+  /** Lấy thông tin Phường
+   *
+   */
+  getWard(code: number) {
+    const url = this.PROVINCEURL + `w/${code}`;
+    return this.httpClient.get<any>(url);
   }
 }

@@ -5,6 +5,7 @@ import { PeopleComponent } from './people.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 import { MaterialModule } from '../material.module';
+import { NgZorroAntModule } from '../ng-zorro-ant.module';
 import { ReportedComponent } from './reported/reported.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -31,6 +32,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule,
     MaterialModule,
+    NgZorroAntModule,
     EditorModule,
     FormsModule,
     MatInputModule,

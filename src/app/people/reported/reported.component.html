@@ -1,3 +1,43 @@
-<p>
-  reported works!
-</p>
+<div class="container-fluid">
+  <div class="row p-0 m-0 d-flex justify-content-center">
+    <div class="title col-2 d-flex align-items-center">
+      <h2 class="m-0">Xem báo cáo</h2>
+    </div>
+
+    <div class="col-6">
+      <nav class="navbar navbar-lightd-flex">
+        <input class="form-control mr-sm-2 mr-2" style="width: 88%;" type="text" [(ngModel)]="emailSearch"
+          placeholder="Nhập email báo cáo" (keyup.enter)="search()">
+        <button class="btn btn-outline-success my-2 my-sm-0" style="width: 10%;" (click)="search()">Tìm</button>
+      </nav>
+    </div>
+    <div class="col-4"></div>
+
+    <nz-table #basicTable [nzData]="dataReportByEmail">
+      <thead>
+        <tr>
+          <th>Tên</th>
+          <th>Trạng thái</th>
+          <th>Loại báo cáo</th>
+          <th>Địa điểm thuộc</th>
+          <th nzAlign="center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data; index as i">
+          <td>{{data.full_name}}</td>
+          <td>{{data.isProcess == true? 'Đã xử lý' : 'Chưa xử lý' }}</td>
+          <td>{{generateTypeReport(data.type)}}</td>
+          <td>{{data.nameWard}} - {{data.nameDistrict}}</td>
+          <td nzAlign="center">
+            <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="text-danger" (click)="deleteDetail(i)">Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

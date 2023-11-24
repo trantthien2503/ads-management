@@ -1,3 +1,10 @@
-<div class="w-100 h-100">
-  <app-jsmap></app-jsmap>
+<div class="people w-100 h-100">
+  <app-jsmap *ngIf="markers.length" [markers]="markers" (outputChooseMarker)="outputChooseMarker($event)"></app-jsmap>
 </div>
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+  </ng-container>
+</nz-drawer>

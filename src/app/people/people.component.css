@@ -1,0 +1,12 @@
+.people{
+  position: relative;
+}
+
+.detail{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40vw;
+  height: 100%;
+  color: red;
+}
