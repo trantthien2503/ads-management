@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../services/crud.service';
 import { MarkerAndColor } from '../interface/interfaces';
@@ -9,27 +10,30 @@ import { MarkerAndColor } from '../interface/interfaces';
 })
 export class PeopleComponent implements OnInit {
   markers: MarkerAndColor[] = [];
-  constructor(private crudService: CrudService) {
+  public markerSelected?: MarkerAndColor;
+  public loading = false;
+
+  constructor(private crudService: CrudService, private router: Router) {
     this.crudService.get('advertising-panels').subscribe(
       (response: any) => {
         if (response) {
           if (response.data) {
-            console.log('--advertising-panels', response.data);
-
             this.markers = response.data;
+            this.loading = true;
           }
         }
       },
-      (err) => console.error('---err', err)
+      (err) => (this.loading = true)
     );
   }
 
   ngOnInit() {}
 
-  outputChooseMarker(event: any){
-    if(event){
+  outputChooseMarker(event: any) {
+    if (event) {
       console.log('----outputChooseMarker', event);
-      this.open()
+      this.markerSelected = event;
+      this.open();
     }
   }
 
@@ -41,5 +45,12 @@ export class PeopleComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+  }
+
+  outputReportAdvertising(event: any) {
+    if (event) {
+      this.close();
+      this.router.navigateByUrl('/people/report');
+    }
   }
 }

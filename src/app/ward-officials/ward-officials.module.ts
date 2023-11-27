@@ -7,6 +7,10 @@ import { ComponentsModule } from '../components/components.module';
 import { LicensingComponent } from './licensing/licensing.component';
 import { ListOfAdsComponent } from './list-of-ads/list-of-ads.component';
 import { ReportFromPeopleComponent } from './report-from-people/report-from-people.component';
+import { NgZorroAntModule } from '../ng-zorro-ant.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const routes: Routes = [
   {
@@ -33,6 +37,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule,
     MaterialModule,
+    NgZorroAntModule,
+    EditorModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   declarations: [WardOfficialsComponent],
 })

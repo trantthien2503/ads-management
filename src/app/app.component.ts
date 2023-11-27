@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
       console.log('---userCurrent', this.userCurrent);
 
       this.navigateByRoleUser(this.userCurrent.role);
-    }else{
+    } else {
       this.navigateByRoleUser(1);
     }
   }
@@ -53,9 +53,6 @@ export class AppComponent implements OnInit {
 
   navigateByRoleUser(role: number) {
     switch (role) {
-      case 1:
-        this.router.navigateByUrl('/people');
-        break;
       case 2:
         this.router.navigateByUrl('/ward-officials');
         break;
@@ -64,6 +61,9 @@ export class AppComponent implements OnInit {
         break;
       case 4:
         this.router.navigateByUrl('/department-staff');
+        break;
+      default:
+        this.router.navigateByUrl('/people');
         break;
     }
   }

@@ -37,6 +37,7 @@ export interface DataMarker {
 }
 
 export interface MarkerAndColor {
+  ads_code: string;
   color: string;
   marker: Marker;
   lngLat: LngLat;

@@ -89,7 +89,7 @@ export class JsmapComponent implements OnInit {
           : '';
         const type_of_billboard = dataM.type_of_billboard.length
           ? `<span class="p-0 m-0" style="font-size: 16px;"> ${dataM.type_of_billboard}</span><br>`
-          : '<span class="p-0 m-0" style="font-size: 16px;"> Chưa đăng kí</span><br>';
+          : '<span class="p-0 m-0" style="font-size: 16px;">Chưa đăng kí</span><br>';
         const popupContent = document.createElement('div');
         popupContent.innerHTML = `
           ${type_of_billboard}
@@ -107,7 +107,7 @@ export class JsmapComponent implements OnInit {
         `;
 
         const atag = document.createElement('div');
-        atag.innerHTML = `<a id="${marker.id}">Chi tiết!!</a>`;
+        atag.innerHTML = `<a class="text-warning" id="${marker.id}">Chi tiết <i class="bi bi-arrow-right-circle"></i></a>`;
         popupContent.appendChild(atag);
         atag.addEventListener('click', (e) => {
           this.selectedMarkerFn(marker);
@@ -132,33 +132,33 @@ export class JsmapComponent implements OnInit {
   onRightClick(event: MouseEvent) {
     if (!this.map) return;
 
-    const color = '#xxxxxx'.replace(/x/g, (y) =>
-      ((Math.random() * 16) | 0).toString(16)
-    );
-    const lngLat = this.map.getCenter();
+    // const color = '#xxxxxx'.replace(/x/g, (y) =>
+    //   ((Math.random() * 16) | 0).toString(16)
+    // );
+    // const lngLat = this.map.getCenter();
 
-    const popup = new Popup({ closeOnClick: false })
-      .setLngLat(lngLat)
-      .setHTML('<h1>Hello World!</h1>')
-      .addTo(this.map);
-    const marker = new Marker({
-      color: color,
-      draggable: true,
-    })
-      .setLngLat(lngLat)
-      .setPopup(popup)
-      .addTo(this.map);
+    // const popup = new Popup({ closeOnClick: false })
+    //   .setLngLat(lngLat)
+    //   .setHTML('<h1>Hello World!</h1>')
+    //   .addTo(this.map);
+    // const marker = new Marker({
+    //   color: color,
+    //   draggable: true,
+    // })
+    //   .setLngLat(lngLat)
+    //   .setPopup(popup)
+    //   .addTo(this.map);
 
-    this.markers.push({ color, marker, lngLat });
-    const plainMarkers: PlainMarker[] = this.markers.map(
-      ({ color, marker, lngLat }) => {
-        return {
-          color,
-          lngLat: lngLat,
-        };
-      }
-    );
+    // this.markers.push({ color, marker, lngLat, ads_code });
+    // const plainMarkers: PlainMarker[] = this.markers.map(
+    //   ({ color, marker, lngLat }) => {
+    //     return {
+    //       color,
+    //       lngLat: lngLat,
+    //     };
+    //   }
+    // );
 
-    localStorage.setItem('plainMarkers', JSON.stringify(plainMarkers));
+    // localStorage.setItem('plainMarkers', JSON.stringify(plainMarkers));
   }
 }

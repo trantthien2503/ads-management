@@ -1,10 +1,11 @@
-<div class="people w-100 h-100">
+<div *ngIf="loading" class="people w-100 h-100">
   <app-jsmap *ngIf="markers.length" [markers]="markers" (outputChooseMarker)="outputChooseMarker($event)"></app-jsmap>
 </div>
 <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" (nzOnClose)="close()">
   <ng-container *nzDrawerContent>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
+    <app-advertising-location-information [marker]="markerSelected" (outputReportAdvertising)="outputReportAdvertising($event)"></app-advertising-location-information>
   </ng-container>
 </nz-drawer>
+
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

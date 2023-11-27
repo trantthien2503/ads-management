@@ -12,6 +12,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import { DetailReportComponent } from './detail-report/detail-report.component';
 import { NgZorroAntModule } from '../ng-zorro-ant.module';
 import * as mapboxgl from 'mapbox-gl';
+import { AdvertisingLocationInformationComponent } from './advertising-location-information/advertising-location-information.component';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -19,7 +20,8 @@ const component = [
   RegisterFormComponent,
   LoginAndRegisterComponent,
   MatSpinnerOverlayComponent,
-  DetailReportComponent
+  DetailReportComponent,
+  AdvertisingLocationInformationComponent
 ];
 @NgModule({
   imports: [

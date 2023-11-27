@@ -17,10 +17,10 @@
               </ng-container>
               <ng-container *ngSwitchCase="4"> <ng-template [ngTemplateOutlet]="templateRole4"></ng-template>
               </ng-container>
-              <ng-container *ngSwitchDefault> <ng-template [ngTemplateOutlet]="templateRole1"></ng-template>
-              </ng-container>
             </ng-container>
           </ng-container>
+          <ng-container *ngIf="!userCurrent">
+            <ng-template [ngTemplateOutlet]="templateRole1"></ng-template></ng-container>
           <li>
             <a *ngIf="!userCurrent" class="auth-modal-toggle btn btn-primary ripple-surface ms-2 me-1"
               data-auth-modal-tab="sign-in" (click)="openLogin()">Login</a>
@@ -123,4 +123,3 @@
     </div>
   </div>
 </div>
-
