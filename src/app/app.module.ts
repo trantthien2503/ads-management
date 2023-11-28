@@ -13,6 +13,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
+import { NgZorroAntModule } from './ng-zorro-ant.module';
 
 registerLocaleData(en);
 
@@ -27,7 +28,7 @@ registerLocaleData(en);
     MaterialModule,
     EditorModule,
     FormsModule,
-
+    NgZorroAntModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

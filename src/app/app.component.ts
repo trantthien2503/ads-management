@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginAndRegisterComponent } from './components/login-and-register/login-and-register.component';
+import { CrudService } from './services/crud.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,11 @@ import { LoginAndRegisterComponent } from './components/login-and-register/login
 export class AppComponent implements OnInit {
   title = 'ads-management';
   public userCurrent: any = null;
-  constructor(private router: Router, private matDialog: MatDialog) {}
+  constructor(
+    private router: Router,
+    private matDialog: MatDialog,
+    private crudService: CrudService
+  ) {}
   ngOnInit() {
     const stringUser = localStorage.getItem('user');
     if (stringUser) {
@@ -19,10 +24,22 @@ export class AppComponent implements OnInit {
       console.log('---userCurrent', this.userCurrent);
 
       this.navigateByRoleUser(this.userCurrent.role);
+      this.callRealtimeServer()
     } else {
       this.navigateByRoleUser(1);
     }
+
   }
+
+  /** Hàm thực hiện gọi server liên tục
+   *
+   */
+  callRealtimeServer(){
+    setInterval(()=>{
+      if(this.userCurrent.role == 2 ) this.getReportWard(this.userCurrent.ward);
+    }, 5000)
+  }
+
 
   openLogin() {
     this.matDialog
@@ -66,5 +83,16 @@ export class AppComponent implements OnInit {
         this.router.navigateByUrl('/people');
         break;
     }
+  }
+
+  reportWard: number = 0;
+  getReportWard(ward_code: any) {
+    this.crudService
+      .find('reports', 'to_ward', ward_code)
+      .subscribe((response: any) => {
+        if(response?.data){
+          this.reportWard = response.data.length;
+        }
+      });
   }
 }

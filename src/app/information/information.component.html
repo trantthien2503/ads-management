@@ -31,27 +31,19 @@
                 <div class="col-6">
                   <mat-form-field class="w-100">
                     <mat-label>Phân hệ</mat-label>
-                    <mat-select formControlName="role" (ngModelChange)="updateUser()">
-                      <mat-option *ngFor="let role of roleUsers" [value]="role.role">{{role.label}}</mat-option>
-                    </mat-select>
+                    <input matInput formControlName="role" readonly>
                   </mat-form-field>
                 </div>
                 <div *ngIf="userCurrent.role == 2 || userCurrent.role == 3" class="col-6">
                   <mat-form-field class="w-100">
                     <mat-label>Quận</mat-label>
-                    <mat-select formControlName="district" (ngModelChange)="chooseDistrict($event); updateUser()">
-                      <mat-option *ngFor="let district of districts"
-                        [value]="district.code">{{district.name}}</mat-option>
-                    </mat-select>
+                    <input matInput formControlName="district" readonly>
                   </mat-form-field>
                 </div>
                 <div *ngIf="userCurrent.role == 2" class="col-6">
                   <mat-form-field class="w-100">
                     <mat-label>Phường</mat-label>
-                    <mat-select formControlName="ward" (ngModelChange)="updateUser()">
-                      <mat-option *ngFor="let ward of wards"
-                        [value]="ward.code">{{ward.name}}</mat-option>
-                    </mat-select>
+                    <input matInput formControlName="ward" readonly>
                   </mat-form-field>
                 </div>
               </div>

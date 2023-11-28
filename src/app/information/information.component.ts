@@ -82,6 +82,23 @@ export class InformationComponent implements OnInit {
       district: [user && user.district ? user.district : ''],
       role: [user ? user.role : 1],
     });
+
+    if (user) {
+      this.provinceService
+        .getDistrict(user.district)
+        .subscribe((response: any) => {
+          if (response) {
+            this.userProfileForm.controls['district'].setValue(response.name);
+          }
+        });
+      this.provinceService.getWard(user.ward).subscribe((response: any) => {
+        if (response) {
+          this.userProfileForm.controls['ward'].setValue(response.name);
+        }
+      });
+      const role: any = this.roleUsers.filter(filter => filter.role == user.role)
+      if(role.length) this.userProfileForm.controls['role'].setValue(role[0].label);
+    }
   }
 
   chooseDistrict(e: any) {

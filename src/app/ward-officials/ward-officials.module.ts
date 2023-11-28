@@ -43,6 +43,6 @@ const routes: Routes = [
     MatInputModule,
     ReactiveFormsModule,
   ],
-  declarations: [WardOfficialsComponent],
+  declarations: [WardOfficialsComponent, LicensingComponent, ListOfAdsComponent, ReportFromPeopleComponent],
 })
 export class WardOfficialsModule {}
