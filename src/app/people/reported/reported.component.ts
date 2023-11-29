@@ -93,13 +93,13 @@ export class ReportedComponent implements OnInit {
    * @param data
    */
   seeDetail(data: any) {
-    this.matDialog.open(DetailReportComponent, {
-      height: '400px',
-      width: '600px',
-      data: data,
-    }).afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    // this.matDialog.open(DetailReportComponent, {
+    //   height: '400px',
+    //   width: '600px',
+    //   data: data,
+    // }).afterClosed().subscribe(result => {
+    //   console.log('The dialog was closed');
+    // });
   }
 
   /** Hàm thực xóa báo với vị tri

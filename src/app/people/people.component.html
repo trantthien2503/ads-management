@@ -3,7 +3,7 @@
 </div>
 <nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" (nzOnClose)="close()">
   <ng-container *nzDrawerContent>
-    <app-advertising-location-information [marker]="markerSelected" (outputReportAdvertising)="outputReportAdvertising($event)"></app-advertising-location-information>
+    <app-advertising-location-information [isPeople]="true" [marker]="markerSelected" (outputReportAdvertising)="outputReportAdvertising($event)"></app-advertising-location-information>
   </ng-container>
 </nz-drawer>
 

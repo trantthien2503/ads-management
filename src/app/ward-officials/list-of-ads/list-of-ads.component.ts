@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MarkerAndColor } from 'src/app/interface/interfaces';
 import { CrudService } from 'src/app/services/crud.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
@@ -10,7 +11,6 @@ import { ProvinceService } from 'src/app/services/province.service';
 export class ListOfAdsComponent implements OnInit {
   public userCurrent: any;
   public loading = false;
-  public dataReportByEmail: Array<any> = [];
   public emailSearch: string = '';
   public typeReports: Array<any> = [
     {
@@ -31,7 +31,9 @@ export class ListOfAdsComponent implements OnInit {
     },
   ];
   public ward?: any;
+  public district?: any;
   public adsList: Array<any> = [];
+  public markerSelected?: MarkerAndColor;
   constructor(
     private provinceService: ProvinceService,
     private crudService: CrudService
@@ -47,6 +49,15 @@ export class ListOfAdsComponent implements OnInit {
             this.ward = response;
           }
         });
+
+      this.provinceService
+        .getDistrict(JSON.parse(stringUser).district)
+        .subscribe((response: any) => {
+          if (response) {
+            this.district = response;
+          }
+        });
+
       this.getAdsByCodeWard(JSON.parse(stringUser).ward);
       this.userCurrent = JSON.parse(stringUser);
     }
@@ -61,7 +72,35 @@ export class ListOfAdsComponent implements OnInit {
           console.log('---response.data;', response.data);
 
           this.adsList = response.data;
+          this.adsList = this.adsList.sort(this.compare);
         }
       });
+  }
+
+  compare(a: any, b: any) {
+    if (a.ads_code < b.ads_code) {
+      return -1;
+    }
+    if (a.ads_code > b.ads_code) {
+      return 1;
+    }
+    return 0;
+  }
+
+
+  visible = false;
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
+
+
+  seeDetail(data: any){
+    this.markerSelected = data;
+    this.open();
   }
 }

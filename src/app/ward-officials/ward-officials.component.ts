@@ -30,7 +30,10 @@ export class WardOfficialsComponent implements OnInit {
             }
           }
         },
-        (err) => (this.loading = true)
+        (err) => {
+          this.loading = true;
+          console.log('err', err);
+        }
       );
     }
   }

@@ -139,6 +139,7 @@ export class ReportComponent implements OnInit {
       let data = {
         ...this.reportForm.value,
         isProcess: false,
+        isViewed: false,
         images: this.images,
       };
       this.crudService.add({ field: 'reports', data: data }).subscribe(

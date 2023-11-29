@@ -1,5 +1,5 @@
 <div class="main w-100 h-100">
-  <div id="mdb-navbar" class="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-2">
+  <div id="mdb-navbar" class="navbar fixed-top navbar-expand-lg navbar-light bg-white shadow-2" style="z-index: 1 !important;">
     <div class="container-fluid">
       <button type="button" class="btn shadow-0 p-0 me-3"><i class="fas fa-bars fa-lg"></i></button>
       <a class="navbar-brand me-2" id="mdb-navbar-brand-logo"
@@ -64,7 +64,7 @@
             </li>
             <li class="nav-item me-3 me-lg-0">
               <a class="nav-link" role="button" routerLink="/ward-officials/report-from-people">
-                <nz-badge [nzCount]="reportWard">
+                <nz-badge [nzCount]="reportWardCount">
                   <span class="d-none d-lg-inline-block ml-1">Xem báo cáo</span>
                 </nz-badge>
               </a>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -16,6 +16,7 @@ import { ProvinceService } from 'src/app/services/province.service';
   styleUrls: ['./detail-report.component.css'],
 })
 export class DetailReportComponent implements OnInit {
+  @Input() data: any;
   validateForm: FormGroup<{
     email: FormControl<string>;
     full_name: FormControl<string>;
@@ -50,8 +51,6 @@ export class DetailReportComponent implements OnInit {
   constructor(
     private provinceService: ProvinceService,
     private fb: NonNullableFormBuilder,
-    public dialogRef: MatDialogRef<DetailReportComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],

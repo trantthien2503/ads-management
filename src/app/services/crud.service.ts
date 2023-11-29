@@ -33,6 +33,15 @@ export class CrudService {
     );
   }
 
+  update(field: string, id: string, dataUpdate: object){
+    let post = {
+      field: field,
+      id: id,
+      data_update: dataUpdate
+    }
+    return this.httpClient.post<any>(`${this.SERVER_URL}/api/update-by-fields`, post);
+  }
+
   get(field: string){
     const data = {
       field

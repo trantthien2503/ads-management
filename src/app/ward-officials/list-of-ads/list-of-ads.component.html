@@ -1,33 +1,41 @@
 <div class="container-fluid">
   <div *ngIf="loading" class="row p-0 m-0 d-flex justify-content-center">
     <div class="title d-flex align-items-center">
-      <h4 class="m-0">Danh sách điểm quảng cáo {{ward?.name}}</h4>
+      <h4 class="m-0">Danh sách điểm quảng cáo {{ward?.name}} - {{district?.name}}</h4>
     </div>
-    <nz-table #basicTable [nzData]="dataReportByEmail">
+    <span>Số lượng điểm: <span class="text-danger"> {{adsList.length}}</span></span>
+    <nz-table #basicTable [nzData]="adsList">
       <thead>
         <tr>
-          <th>Tên</th>
+          <th>Mã ads</th>
           <th>Trạng thái</th>
-          <th>Loại báo cáo</th>
-          <th>Địa điểm thuộc</th>
+          <th>Địa chi</th>
+          <th>Kích thước</th>
           <th nzAlign="center">Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data; index as i">
-          <td>{{data.full_name}}</td>
-          <td>{{data.isProcess == true? 'Đã xử lý' : 'Chưa xử lý' }}</td>
-          <td></td>
-          <td>{{data.nameWard}} - {{data.nameDistrict}}</td>
+          <td>{{data.ads_code}}</td>
+          <td> <b [class]="data.data.is_zoning? 'text-success': 'text-danger'">{{data.data.is_zoning? 'Đã huy hoạch' :
+              'Chưa huy hoạch' }}</b></td>
+          <td> {{data.data.address}}</td>
+          <td>{{data.data.width}}m - {{data.data.height}}m</td>
           <td nzAlign="center">
-            <!-- <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
-            <nz-divider nzType="vertical"></nz-divider>
-            <a class="text-danger" (click)="deleteDetail(i)">Xóa</a> -->
+            <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
+            <!-- <nz-divider nzType="vertical"></nz-divider>
+            <a class="text-danger">Xóa</a> -->
           </td>
         </tr>
       </tbody>
     </nz-table>
   </div>
 </div>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="Basic Drawer" (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <app-advertising-location-information [isPeople]="false" [marker]="markerSelected" ></app-advertising-location-information>
+  </ng-container>
+</nz-drawer>
 
 <app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

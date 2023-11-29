@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -24,22 +25,20 @@ export class AppComponent implements OnInit {
       console.log('---userCurrent', this.userCurrent);
 
       this.navigateByRoleUser(this.userCurrent.role);
-      this.callRealtimeServer()
+      this.callRealtimeServer();
     } else {
       this.navigateByRoleUser(1);
     }
-
   }
 
   /** Hàm thực hiện gọi server liên tục
    *
    */
-  callRealtimeServer(){
-    setInterval(()=>{
-      if(this.userCurrent.role == 2 ) this.getReportWard(this.userCurrent.ward);
-    }, 5000)
+  callRealtimeServer() {
+    setInterval(() => {
+      if (this.userCurrent.role == 2) this.getReportWard(this.userCurrent.ward);
+    }, 5000);
   }
-
 
   openLogin() {
     this.matDialog
@@ -85,14 +84,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  reportWard: number = 0;
+  reportWardCount: number = 0;
   getReportWard(ward_code: any) {
     this.crudService
       .find('reports', 'to_ward', ward_code)
       .subscribe((response: any) => {
-        if(response?.data){
-          this.reportWard = response.data.length;
+        if (response?.data) {
+          this.reportWardCount = response.data.filter(
+            (filter: any) =>
+              filter.isProcess == false && filter.isViewed == false
+          ).length;
         }
+      }, error =>{
+        console.log('---getReportWard', error);
+
       });
   }
 }

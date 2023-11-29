@@ -8,6 +8,7 @@ import { ProvinceService } from 'src/app/services/province.service';
   styleUrls: ['./advertising-location-information.component.scss'],
 })
 export class AdvertisingLocationInformationComponent implements OnInit {
+  @Input() isPeople?: boolean = false;
   @Input() marker?: MarkerAndColor;
   @Output() outputReportAdvertising: EventEmitter<any> = new EventEmitter();
   public dataMarker?: DataMarker;
