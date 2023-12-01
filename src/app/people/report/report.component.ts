@@ -43,6 +43,7 @@ export class ReportComponent implements OnInit {
     content: FormControl<string>;
     to_ward: FormControl<string>;
     to_district: FormControl<string>;
+    ads_code: FormControl<string>
   }>;
   public images: Array<any> = [
     {
@@ -73,6 +74,7 @@ export class ReportComponent implements OnInit {
       content: ['', [Validators.required]],
       to_ward: ['', [Validators.required]],
       to_district: ['', [Validators.required]],
+      ads_code: ['', [Validators.required]]
     });
 
     this.provinceService.getProvenceHCM().subscribe((response: any) => {

@@ -132,6 +132,7 @@ export class ReportFromPeopleComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+    this.reportSelected = {};
   }
 
   changeViewed(event: any, idUpdate: string) {
@@ -160,5 +161,26 @@ export class ReportFromPeopleComponent implements OnInit {
           console.log('----update', response);
         }
       });
+  }
+
+  outputCompleteReport(event: any) {
+    if (event) {
+      this.reportSelected.isProcess = event.isProcess;
+      const data = {
+        ...this.reportSelected,
+      };
+      this.update('reports', this.reportSelected.id, data);
+      this.close();
+    }
+  }
+
+  isVisibleModal = false;
+
+  modalCancel(){
+    this.isVisibleModal = false;
+  }
+
+  modalOpen(){
+    this.isVisibleModal = true
   }
 }

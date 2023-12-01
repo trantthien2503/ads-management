@@ -1,13 +1,10 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
-
   NonNullableFormBuilder,
 } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 import { ProvinceService } from 'src/app/services/province.service';
 
 @Component({
@@ -17,6 +14,7 @@ import { ProvinceService } from 'src/app/services/province.service';
 })
 export class DetailReportComponent implements OnInit {
   @Input() data: any;
+  @Output() outputCompleteReport: EventEmitter<any> = new EventEmitter();
   validateForm: FormGroup<{
     email: FormControl<string>;
     full_name: FormControl<string>;
@@ -27,6 +25,8 @@ export class DetailReportComponent implements OnInit {
     to_district: FormControl<number>;
     to_ward: FormControl<number>;
     type_label: FormControl<string>;
+    ads_code: FormControl<string>;
+    content: FormControl<string>;
   }>;
 
   public typeReports: Array<any> = [
@@ -48,9 +48,10 @@ export class DetailReportComponent implements OnInit {
     },
   ];
 
+  public images: Array<any> = [];
   constructor(
     private provinceService: ProvinceService,
-    private fb: NonNullableFormBuilder,
+    private fb: NonNullableFormBuilder
   ) {
     this.validateForm = this.fb.group({
       email: ['', [Validators.email, Validators.required]],
@@ -62,6 +63,8 @@ export class DetailReportComponent implements OnInit {
       to_district: [0],
       to_ward: [0],
       type_label: [''],
+      ads_code: [''],
+      content: [''],
     });
   }
 
@@ -77,12 +80,20 @@ export class DetailReportComponent implements OnInit {
         to_district: [this.data.to_district],
         to_ward: [this.data.to_ward],
         type_label: [this.generateTypeReport(this.data.type)],
+        ads_code: [this.data.ads_code],
+        content: [this.data.content],
       });
-
+      if (this.data.images) this.images = this.data.images;
     }
   }
 
   generateTypeReport(type: number) {
     return this.typeReports.find((find) => find.value === type).label;
+  }
+
+
+  completeReport(){
+    this.validateForm.controls['isProcess'].setValue(true);
+    this.outputCompleteReport.emit({isProcess: true})
   }
 }

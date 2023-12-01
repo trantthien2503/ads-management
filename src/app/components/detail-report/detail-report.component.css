@@ -9,3 +9,7 @@
 .register-are {
   margin-bottom: 8px;
 }
+button {
+  float: right;
+  margin-top: 8px;
+}

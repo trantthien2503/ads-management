@@ -13,6 +13,8 @@ import { DetailReportComponent } from './detail-report/detail-report.component';
 import { NgZorroAntModule } from '../ng-zorro-ant.module';
 import * as mapboxgl from 'mapbox-gl';
 import { AdvertisingLocationInformationComponent } from './advertising-location-information/advertising-location-information.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { SendRequestToComponent } from './send-request-to/send-request-to.component';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -21,7 +23,8 @@ const component = [
   LoginAndRegisterComponent,
   MatSpinnerOverlayComponent,
   DetailReportComponent,
-  AdvertisingLocationInformationComponent
+  AdvertisingLocationInformationComponent,
+  SendRequestToComponent
 ];
 @NgModule({
   imports: [
@@ -32,6 +35,7 @@ const component = [
     ReactiveFormsModule,
     NgZorroAntModule,
     GoogleMapsModule,
+    EditorModule,
   ],
   declarations: component,
   exports: component,

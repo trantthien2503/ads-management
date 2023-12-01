@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <div class="row p-0 m-0 d-flex justify-content-center">
-    <div class="title d-flex align-items-center">
+    <div class="title d-flex align-items-center justify-content-between">
       <h4 class="m-0">Danh sách báo cáo từ người dân</h4>
+      <button class="btn btn-outline-info">Gửi yêu câu đến Sở</button>
     </div>
-
     <nz-table #basicTable [nzData]="dataReports">
       <thead>
         <tr>
@@ -17,9 +17,13 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data; index as i">
-          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed" (nzCheckedChange)="changeViewed($event, data.id)">
+          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+            (nzCheckedChange)="changeViewed($event, data.id)">
           </td>
-          <td>{{data.full_name}}</td>
+          <td>
+            {{data.full_name}} <br>
+            <b>Mã điểm:</b> {{data.ads_code}}
+          </td>
           <td><span [class]="data.isProcess == true? 'text-success': 'text-danger'">{{data.isProcess == true? 'Đã xử lý'
               : 'Chưa xử lý' }}</span></td>
           <td>{{generateTypeReport(data.type)}}</td>
@@ -35,10 +39,30 @@
   </div>
 </div>
 
-<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" nzTitle="" (nzOnClose)="close()">
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" [nzTitle]="title" (nzOnClose)="close()">
   <ng-container *nzDrawerContent>
-    <app-detail-report [data]="reportSelected"></app-detail-report>
+    <app-detail-report [data]="reportSelected"
+      (outputCompleteReport)="outputCompleteReport($event)"></app-detail-report>
   </ng-container>
+  <ng-template #title>
+    Thông tin báo cáo
+    <small *ngIf="reportSelected?.isProcess == true" class="text-success">(Đã xử lý)</small>
+  </ng-template>
 </nz-drawer>
+
+
+<nz-modal [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Gửi yêu cầu đến Sở VH-TT</ng-template>
+  <!-- Làm tới gửi yêu cầu cho Sở -->
+  <ng-template #modalContent>
+    <app-send-request-to></app-send-request-to>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <span>Modal Footer:</span>
+    <button nz-button nzType="primary" >Custom Submit</button>
+  </ng-template>
+</nz-modal>
 
 <app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

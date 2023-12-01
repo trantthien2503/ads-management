@@ -93,6 +93,7 @@ export class JsmapComponent implements OnInit {
         const popupContent = document.createElement('div');
         popupContent.innerHTML = `
           ${type_of_billboard}
+          <span> <b>Mã điểm:</b> ${marker.ads_code}</span><br> 
           <span> <b>Địa chỉ:</b> ${dataM.address}</span><br>
           <span> <b>Kích thước:</b> ${dataM.width}m x ${
           dataM.height

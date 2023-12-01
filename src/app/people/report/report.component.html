@@ -27,24 +27,28 @@
               </mat-form-field>
 
               <mat-form-field class="example-full-width">
+                <mat-label>Mã điểm quảng cáo</mat-label>
+                <input matInput formControlName="ads_code" placeholder="Nhập mã điểm quảng cáo">
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width">
                 <mat-label>Điện thoại liên lạc</mat-label>
                 <input matInput formControlName="phone_number" placeholder="Nhập số điện thoại liên lạc">
               </mat-form-field>
 
               <mat-form-field class="example-full-width">
-                <mat-label>Thuộc quận</mat-label>
+                <mat-label>Điểm quảng cáo thuộc quận</mat-label>
                 <mat-select formControlName="to_district" (ngModelChange)="chooseDistrict($event);">
                   <mat-option *ngFor="let district of districts" [value]="district.code">{{district.name}}</mat-option>
                 </mat-select>
               </mat-form-field>
 
               <mat-form-field class="example-full-width">
-                <mat-label>Thuộc phường</mat-label>
+                <mat-label>Điểm quảng cáo thuộc phường</mat-label>
                 <mat-select formControlName="to_ward">
                   <mat-option *ngFor="let ward of wards" [value]="ward.code">{{ward.name}}</mat-option>
                 </mat-select>
               </mat-form-field>
-
 
               <editor apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
                 [init]="{ plugins: 'lists link image table code help wordcount', placeholder: 'Nhập nội dung báo cáo'}"
@@ -62,11 +66,13 @@
               <div class="col-6 p-0 m-0">
                 <div class="main-image">
                   <div class="image w-100 h-100">
-                    <input [id]="'image'+i" type="file" accept=".jpg" style="display: none;" (change)="changeImage(i, $event)">
+                    <input [id]="'image'+i" type="file" accept=".jpg" style="display: none;"
+                      (change)="changeImage(i, $event)">
                     <img width="100%" height="100%" style="object-fit: contain" [src]="image.src" [alt]="image.alt">
                   </div>
                   <div class="text-click justify-content-center align-items-center">
-                    <span role="button" (click)="uploadImage(i);">Tải ảnh từ máy <mat-icon>cloud_upload</mat-icon></span>
+                    <span role="button" (click)="uploadImage(i);">Tải ảnh từ máy
+                      <mat-icon>cloud_upload</mat-icon></span>
                   </div>
                 </div>
               </div>

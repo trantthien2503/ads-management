@@ -1,9 +1,10 @@
 <form nz-form [formGroup]="validateForm">
-  <div class="title">
-    <h4>
-      Thông tin báo cáo
-    </h4>
-  </div>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ads_code">Mã điểm quảng cáo</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="ads_code" id="ads_code" readonly />
+    </nz-form-control>
+  </nz-form-item>
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24">
@@ -29,11 +30,29 @@
     </nz-form-control>
   </nz-form-item>
 
-  <nz-form-item>
-    <nz-form-label [nzSm]="6" [nzXs]="24">Đã xử lí</nz-form-label>
-    <nz-form-control [nzSm]="14" [nzXs]="24">
-      <label nz-checkbox formControlName="isProcess">
-      </label>
-    </nz-form-control>
-  </nz-form-item>
+  <editor apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
+    [init]="{ plugins: 'lists link image table code help wordcount', placeholder: 'Nhập nội dung báo cáo'}"
+    formControlName="content">
+  </editor>
+  <ng-template [ngTemplateOutlet]="templateImages"></ng-template>
+
+
+  <button *ngIf="validateForm.value.isProcess == false" (click)="completeReport()" class="btn btn-outline-success">Hoàn
+    thành</button>
 </form>
+
+
+
+<ng-template #templateImages>
+  <div class="row p-0 m-0 mt-2">
+    <ng-container *ngFor="let image of images; index as i ">
+      <div class="col-12 p-0 m-0 mb-2">
+        <div class="main-image">
+          <div class="image w-100 h-100">
+            <img width="100%" height="100%" style="object-fit: contain" [src]="image.src" [alt]="image.alt">
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
