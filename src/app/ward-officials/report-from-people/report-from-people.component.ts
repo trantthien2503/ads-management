@@ -39,7 +39,6 @@ export class ReportFromPeopleComponent implements OnInit {
     private provinceService: ProvinceService,
     public matDialog: MatDialog,
     private _snackBar: MatSnackBar
-
   ) {}
 
   ngOnInit() {
@@ -182,21 +181,20 @@ export class ReportFromPeopleComponent implements OnInit {
   /** Hàm thực hiện đóng modal form gửi thông tin chỉnh sửa về swro VH-TT
    *
    */
-  modalCancel(){
+  modalCancel() {
     this.isVisibleModal = false;
   }
 
   /** Hàm thực hiện mở modal Form gửi thông tin chỉnh sửa về swro VH-TT
    *
    */
-  modalOpen(){
-    this.isVisibleModal = true
+  modalOpen() {
+    this.isVisibleModal = true;
   }
 
-
   public dataSendRequestTo: any;
-  outputSendRequestTo(event: any){
-    if(event){
+  outputSendRequestTo(event: any) {
+    if (event) {
       this.dataSendRequestTo = event;
     }
   }
@@ -204,29 +202,32 @@ export class ReportFromPeopleComponent implements OnInit {
   /** Hàm thực hiện gửi Form cho ở VH-TT
    *
    */
-  submitForm(){
-    if(this.dataSendRequestTo){
+  submitForm() {
+    if (this.dataSendRequestTo) {
+      const date = new Date();
+      const timestampInSeconds = Math.floor(date.getTime() / 1000);
       const data = {
         field: 'reports',
         data: {
           ...this.dataSendRequestTo,
           isProcess: false,
           isViewed: false,
-          type: 1
+          type: 1,
+          date: timestampInSeconds,
+        },
+      };
+      this.crudService.add(data).subscribe((response: any) => {
+        if (response) {
+          this.openSnackBar('Đã gửi thành công yêu cầu', 'Ok');
         }
-      }
-      this.crudService.add(data).subscribe((response: any)=>{
-        if(response){
-          this.openSnackBar('Đã gửi thành công yêu cầu', 'Ok')
-        }
-      })
+      });
     }
     this.modalCancel();
   }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 5000
+      duration: 5000,
     });
   }
 }
