@@ -84,8 +84,8 @@ export class JsmapComponent implements OnInit {
         const advertising_form = dataM.advertising_form.length
           ? `<span> <b>Hình thức:</b> ${dataM.advertising_form}</span><br>`
           : '';
-        const position_type = dataM.advertising_form.length
-          ? `<span> <b>Loại vị trí:</b> ${dataM.advertising_form}</span><br>`
+        const position_type = dataM.position_type.length
+          ? `<span> <b>Loại vị trí:</b> ${dataM.position_type}</span><br>`
           : '';
         const type_of_billboard = dataM.type_of_billboard.length
           ? `<span class="p-0 m-0" style="font-size: 16px;"> ${dataM.type_of_billboard}</span><br>`
@@ -93,7 +93,7 @@ export class JsmapComponent implements OnInit {
         const popupContent = document.createElement('div');
         popupContent.innerHTML = `
           ${type_of_billboard}
-          <span> <b>Mã điểm:</b> ${marker.ads_code}</span><br> 
+          <span> <b>Mã điểm:</b> ${marker.ads_code}</span><br>
           <span> <b>Địa chỉ:</b> ${dataM.address}</span><br>
           <span> <b>Kích thước:</b> ${dataM.width}m x ${
           dataM.height

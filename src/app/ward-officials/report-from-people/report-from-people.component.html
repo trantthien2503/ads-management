@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div class="row p-0 m-0 d-flex justify-content-center">
-    <div class="title d-flex align-items-center justify-content-between">
+    <div class="title mb-2 d-flex align-items-center justify-content-between">
       <h4 class="m-0">Danh sách báo cáo từ người dân</h4>
-      <button class="btn btn-outline-info">Gửi yêu câu đến Sở</button>
+      <button class="btn btn-outline-info" (click)="modalOpen()">Gửi yêu câu đến Sở</button>
     </div>
     <nz-table #basicTable [nzData]="dataReports">
       <thead>
@@ -51,17 +51,16 @@
 </nz-drawer>
 
 
-<nz-modal [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
   (nzOnCancel)="modalCancel()">
   <ng-template #modalTitle>Gửi yêu cầu đến Sở VH-TT</ng-template>
   <!-- Làm tới gửi yêu cầu cho Sở -->
   <ng-template #modalContent>
-    <app-send-request-to></app-send-request-to>
+    <app-send-request-to (outputSendRequestTo)="outputSendRequestTo($event)"></app-send-request-to>
   </ng-template>
 
   <ng-template #modalFooter>
-    <span>Modal Footer:</span>
-    <button nz-button nzType="primary" >Custom Submit</button>
+    <button nz-button nzType="primary" (click)="submitForm();" >Gửi nội dung</button>
   </ng-template>
 </nz-modal>
 

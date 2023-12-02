@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
 import { ProvinceService } from 'src/app/services/province.service';
@@ -36,7 +37,9 @@ export class ReportFromPeopleComponent implements OnInit {
   constructor(
     private crudService: CrudService,
     private provinceService: ProvinceService,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    private _snackBar: MatSnackBar
+
   ) {}
 
   ngOnInit() {
@@ -174,13 +177,56 @@ export class ReportFromPeopleComponent implements OnInit {
     }
   }
 
-  isVisibleModal = false;
+  isVisibleModal = false; // Biền dùng để xác định ẩn hiện form gửi thông tin chỉnh sửa về swro VH-TT
 
+  /** Hàm thực hiện đóng modal form gửi thông tin chỉnh sửa về swro VH-TT
+   *
+   */
   modalCancel(){
     this.isVisibleModal = false;
   }
 
+  /** Hàm thực hiện mở modal Form gửi thông tin chỉnh sửa về swro VH-TT
+   *
+   */
   modalOpen(){
     this.isVisibleModal = true
+  }
+
+
+  public dataSendRequestTo: any;
+  outputSendRequestTo(event: any){
+    if(event){
+      this.dataSendRequestTo = event;
+    }
+  }
+
+  /** Hàm thực hiện gửi Form cho ở VH-TT
+   *
+   */
+  submitForm(){
+    if(this.dataSendRequestTo){
+      const data = {
+        field: 'reports',
+        data: {
+          ...this.dataSendRequestTo,
+          isProcess: false,
+          isViewed: false,
+          type: 1
+        }
+      }
+      this.crudService.add(data).subscribe((response: any)=>{
+        if(response){
+          this.openSnackBar('Đã gửi thành công yêu cầu', 'Ok')
+        }
+      })
+    }
+    this.modalCancel();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
 }

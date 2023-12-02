@@ -1,3 +1,49 @@
-<p>
-  send-request-to works!
-</p>
+<form [formGroup]="sendRequestForm">
+  <div class="form-outline" [ngClass]="!isExistsAdsCode? 'mb-0': 'mb-4'">
+    <label class="form-label">Mã điểm quảng cáo*</label>
+    <input type="text" class="form-control" formControlName="ads_code" #adsCode placeholder="Nhập mã điểm quảng cáo"
+      (blur)="getAdvertisingPanelsByADSCODE(adsCode.value)" />
+  </div>
+  <span *ngIf="!isExistsAdsCode" class="text-danger">Mã không tồn tại</span>
+  <div class="form-outline">
+    <label class="form-label">Lý do chỉnh sửa*</label>
+  </div>
+  <editor class="mb-4" apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
+    [init]="{ plugins: 'lists link image table code help wordcount', placeholder: 'Nhập lý do chỉnh sửa'}"
+    formControlName="reason" (ngModelChange)="handleSendRequestTo()" >
+  </editor>
+
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Hình thức</label>
+    <select class="form-select" formControlName="advertising_form" (ngModelChange)="handleSendRequestTo()">
+      <option *ngFor="let item of listAdvertising" [value]="item.value">{{item.label}}</option>
+    </select>
+  </div>
+
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Loại vị trí</label>
+    <select class="form-select" formControlName="position_type" (ngModelChange)="handleSendRequestTo()">
+      <option *ngFor="let item of listPosition" [value]="item.value">{{item.label}}</option>
+    </select>
+  </div>
+
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Loại bảng quảng cáo</label>
+    <select class="form-select" formControlName="type_of_billboard" (ngModelChange)="handleSendRequestTo()">
+      <option *ngFor="let item of listBillboard" [value]="item.value">{{item.label}}</option>
+    </select>
+  </div>
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Chiều dài điểm</label>
+    <input type="number" class="form-control" formControlName="width" (blur)="handleSendRequestTo()" />
+  </div>
+  <div class="form-outline mb-4">
+    <label class="form-label">Chiều cao điểm</label>
+    <input type="number" class="form-control" formControlName="height" (blur)="handleSendRequestTo()" />
+  </div>
+
+</form>
