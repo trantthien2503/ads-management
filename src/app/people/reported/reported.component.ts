@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { forkJoin } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
 import { ProvinceService } from 'src/app/services/province.service';
-import { of, forkJoin, combineLatest, merge } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { DetailReportComponent } from 'src/app/components/detail-report/detail-report.component';
+
 
 @Component({
   selector: 'app-reported',

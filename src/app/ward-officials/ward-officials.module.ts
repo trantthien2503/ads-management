@@ -11,6 +11,7 @@ import { NgZorroAntModule } from '../ng-zorro-ant.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { EmailService } from '../services/email.service';
 
 const routes: Routes = [
   {
@@ -44,5 +45,6 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   declarations: [WardOfficialsComponent, LicensingComponent, ListOfAdsComponent, ReportFromPeopleComponent],
+  providers: [EmailService],
 })
 export class WardOfficialsModule {}

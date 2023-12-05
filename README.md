@@ -44,3 +44,5 @@ quan1@gmail.com 1234567
 
 Department-staff
 boso1@gmail.com 1234567
+
+Làm tới: cấu hình mail cho người đân khi gửi khiếu nại

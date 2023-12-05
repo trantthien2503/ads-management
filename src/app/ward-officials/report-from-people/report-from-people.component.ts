@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
 import { ProvinceService } from 'src/app/services/province.service';
+import { EmailService } from 'src/app/services/email.service';
+import { MailOptions } from 'src/app/interface/interfaces';
 
 @Component({
   selector: 'app-report-from-people',
@@ -38,7 +40,8 @@ export class ReportFromPeopleComponent implements OnInit {
     private crudService: CrudService,
     private provinceService: ProvinceService,
     public matDialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private emailService: EmailService
   ) {}
 
   ngOnInit() {
@@ -228,6 +231,31 @@ export class ReportFromPeopleComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
+    });
+  }
+
+
+
+  public sendEmail(e: Event) {
+    e.preventDefault();
+    const data: MailOptions = {
+      sender_email: 'trantthien2503@gmail.com',
+      sender_name: 'Thiên',
+      recipient_email: 'thanhthien.tran2503@gmail.com',
+      recipient_name: 'Thiên',
+      subject: 'Greetings from Mailjet.',
+      text_content: 'My first Mailjet email',
+      html_content: '<h3>Dear passenger 1, welcome to <a href="https://www.mailjet.com/">Mailjet</a>!</h3><br />May the delivery force be with you!',
+      custom_id: 'AppGettingStartedTest'
+    };
+
+    this.emailService.sendEmail(data).subscribe({
+      next: response => {
+        console.log('Email sent successfully', response);
+      },
+      error: error => {
+        console.error('Failed to send email', error);
+      }
     });
   }
 }

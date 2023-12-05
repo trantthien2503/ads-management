@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data; index as i">
-          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"a
             (nzCheckedChange)="changeViewed($event, data.id)">
           </td>
           <td>
@@ -54,7 +54,6 @@
 <nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
   (nzOnCancel)="modalCancel()">
   <ng-template #modalTitle>Gửi yêu cầu đến Sở VH-TT</ng-template>
-  <!-- Làm tới gửi yêu cầu cho Sở -->
   <ng-template #modalContent>
     <app-send-request-to (outputSendRequestTo)="outputSendRequestTo($event)"></app-send-request-to>
   </ng-template>
@@ -65,3 +64,4 @@
 </nz-modal>
 
 <app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>
+

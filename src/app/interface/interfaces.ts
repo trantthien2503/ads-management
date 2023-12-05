@@ -1,5 +1,17 @@
 import { LngLat, Marker } from "mapbox-gl";
 
+export interface MailOptions{
+  sender_email: string;
+  sender_name: string;
+  recipient_email: string;
+  recipient_name: string;
+  subject: string;
+  text_content: string;
+  html_content: string;
+  custom_id: string;
+}
+
+
 export interface PlainMarker {
   color: string;
   lngLat: LngLat;
