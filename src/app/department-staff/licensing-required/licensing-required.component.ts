@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./licensing-required.component.css']
 })
 export class LicensingRequiredComponent implements OnInit {
-
-  constructor() { }
+  public loading = false;
+  selectedIndex = 0
+  constructor() {}
 
   ngOnInit() {
+    this.loading = true;
   }
 
 }

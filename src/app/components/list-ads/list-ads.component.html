@@ -1,0 +1,65 @@
+<div class="row p-0 m-0 d-flex justify-content-center">
+  <div class="title d-flex align-items-center justify-content-between">
+    <span>Số lượng: <span class="text-danger"> {{dataPositions.length}}</span></span>
+    <button class="btn btn-success" (click)="createData()">Thêm</button>
+  </div>
+  <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Mã điểm</th>
+        <th>Phường</th>
+        <th>Quận</th>
+        <th>Đia chỉ</th>
+        <th>Kích thước</th>
+        <th>Hình quảng cáo</th>
+        <th>Loại bảng quảng cáo</th>
+        <th>Hình thức quảng cáo</th>
+        <th>Trạng thái</th>
+        <th>Thời hạn</th>
+        <th nzRight nzAlign="center">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{data.ads_code}}</td>
+        <td>{{data.nameDistrict}}</td>
+        <td>{{data.nameWard}}</td>
+        <td>{{data.data.address}}</td>
+        <td>{{data.data.width}}m x {{data.data.height}}m</td>
+        <td>{{data.data.position_type}}</td>
+        <td>{{data.data.type_of_billboard}}</td>
+        <td>{{data.data.advertising_form}}</td>
+        <td>
+          <nz-select nzShowSearch nzAllowClear [(ngModel)]="data.data.is_zoning">
+            <nz-option nzLabel="Đã huy hoạch" [nzValue]="true"></nz-option>
+            <nz-option nzLabel="Chưa huy hoạch" [nzValue]="false"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          {{data.data.start_date_of_advertising_contract | date:'dd/MM/yyyy'}}
+          - {{data.data.expiry_date_of_advertising_contract | date:'dd/MM/yyyy'}}
+        </td>
+        <td nzRight nzAlign="center">
+          <a class="text-danger">Xóa</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Thêm mới loại hình thức ads</ng-template>
+  <ng-template #modalContent>
+    <div class="form-outline mb-4">
+      <input type="text" placeholder="Nhập loại hình thức thêm mới" class="form-control"
+        [(ngModel)]="newPositionType" />
+    </div>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="submitForm(newPositionType);">Thêm</button>
+  </ng-template>
+</nz-modal>

@@ -1,0 +1,38 @@
+<div class="row p-0 m-0 d-flex justify-content-center">
+  <div class="title d-flex align-items-center justify-content-between">
+    <span>Số lượng: <span class="text-danger"> {{dataPositions.length}}</span></span>
+    <button class="btn btn-success" (click)="createData()">Thêm</button>
+  </div>
+  <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tiêu đề</th>
+        <th nzAlign="center">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{data.name}}</td>
+        <td nzAlign="center">
+          <a class="text-danger">Xóa</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Thêm mới loại hình ads</ng-template>
+  <ng-template #modalContent>
+    <div class="form-outline mb-4">
+      <input type="text" placeholder="Nhập loại hình thêm mới" class="form-control" [(ngModel)]="newPositionType"/>
+    </div>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="submitForm(newPositionType);">Thêm</button>
+  </ng-template>
+</nz-modal>

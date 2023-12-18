@@ -1,3 +1,23 @@
-<p>
-  manage-lists works!
-</p>
+<div class="container-fluid">
+  <div *ngIf="loading" class="row p-0 m-0 d-flex justify-content-center">
+    <div class="title d-flex align-items-center">
+      <h4 class="m-0">Thông tin quản lý</h4>
+    </div>
+    <nz-tabset [nzSelectedIndex]="">
+      <nz-tab nzTitle="Loại hình quảng cáo">
+        <app-list-position-type></app-list-position-type>
+      </nz-tab>
+      <nz-tab nzTitle="Loại bảng quảng cáo">
+        <app-list-billboard></app-list-billboard>
+      </nz-tab>
+      <nz-tab nzTitle="Loại hình thức báo cáo">
+        <app-list-advertising-form></app-list-advertising-form>
+      </nz-tab>
+      <nz-tab nzTitle="Điểm quảng cáo">
+        <app-list-ads></app-list-ads>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

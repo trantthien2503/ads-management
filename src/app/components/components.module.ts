@@ -17,6 +17,12 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { SendRequestToComponent } from './send-request-to/send-request-to.component';
 import { LicensingAdsComponent } from './licensing-ads/licensing-ads.component';
 import { DetailLicensingAdsComponent } from './detail-licensing-ads/detail-licensing-ads.component';
+import { ListAdvertisingFormComponent } from './list-advertising-form/list-advertising-form.component';
+import { ListBillboardComponent } from './list-billboard/list-billboard.component';
+import { ListPositionTypeComponent } from './list-position-type/list-position-type.component';
+import { ListAdsComponent } from './list-ads/list-ads.component';
+import { ListEditRequestComponent } from './list-edit-request/list-edit-request.component';
+import { ListLicensingRequiredComponent } from './list-licensing-required/list-licensing-required.component';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -28,7 +34,13 @@ const component = [
   AdvertisingLocationInformationComponent,
   SendRequestToComponent,
   LicensingAdsComponent,
-  DetailLicensingAdsComponent
+  DetailLicensingAdsComponent,
+  ListPositionTypeComponent,
+  ListBillboardComponent,
+  ListAdvertisingFormComponent,
+  ListAdsComponent,
+  ListEditRequestComponent,
+  ListLicensingRequiredComponent
 ];
 @NgModule({
   imports: [

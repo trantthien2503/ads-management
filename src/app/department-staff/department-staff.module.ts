@@ -8,6 +8,10 @@ import { StatisticalComponent } from './statistical/statistical.component';
 import { AccountComponent } from './account/account.component';
 import { ComponentsModule } from '../components/components.module';
 import { MaterialModule } from '../material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { NgZorroAntModule } from '../ng-zorro-ant.module';
 
 const routes: Routes = [
   {
@@ -38,12 +42,18 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ComponentsModule,
     MaterialModule,
+    NgZorroAntModule,
+    EditorModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     DepartmentStaffComponent,
     ManageListsComponent,
     LicensingRequiredComponent,
     StatisticalComponent,
+    AccountComponent
   ],
 })
 export class DepartmentStaffModule {}
