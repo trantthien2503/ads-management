@@ -1,0 +1,58 @@
+<form [formGroup]="licensingADSForm">
+  <div class="form-outline" [ngClass]="!isExistsAdsCode? 'mb-0': 'mb-4'">
+    <label class="form-label">Mã điểm quảng cáo*</label>
+    <input type="text" class="form-control" formControlName="ads_code" #adsCode placeholder="Nhập mã điểm quảng cáo"
+      (blur)="getAdvertisingPanelsByADSCODE(adsCode.value)" />
+  </div>
+  <span *ngIf="!isExistsAdsCode" class="text-danger">Mã không tồn tại</span>
+
+  <div class="form-outline">
+    <label class="form-label">Nội dung quảng cáo*</label>
+  </div>
+  <editor class="mb-4" apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
+    [init]="{ plugins: 'lists link image table code help wordcount', placeholder: 'Nhập lý do chỉnh sửa'}"
+    formControlName="content" (ngModelChange)="handleSendRequestTo()" >
+  </editor>
+
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Thông tin công ty đặt ADS</label>
+    <input type="text" class="form-control" formControlName="information_company" (blur)="handleSendRequestTo()" />
+  </div>
+
+
+  <div class="form-outline mb-4">
+    <label class="form-label">Số điện thoại công ty đặt ADS</label>
+    <input type="text" class="form-control" formControlName="phone_company" (blur)="handleSendRequestTo()" />
+  </div>
+
+
+  <div class="form-outline mb-4">
+    <div class="form-outline mb-4">
+      <label class="form-label">Email công ty đặt ADS</label>
+      <input type="email" class="form-control" formControlName="email_company" (blur)="handleSendRequestTo()" />
+    </div>
+  </div>
+
+
+  <div class="form-outline mb-4">
+    <div class="form-outline mb-4">
+      <label class="form-label">Địa chỉ công ty đặt ADS</label>
+      <input type="text" class="form-control" formControlName="address_company" (blur)="handleSendRequestTo()" />
+    </div>
+  </div>
+
+  <div class="form-outline mb-4">
+    <div class="form-outline mb-4">
+      <label class="form-label">Ngày bắt đầu đặt ADS</label>
+      <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}"  formControlName="start_date_of_advertising_contract" (blur)="handleSendRequestTo()" />
+    </div>
+  </div>
+
+  <div class="form-outline mb-4">
+    <div class="form-outline mb-4">
+      <label class="form-label">Ngày kết thúc đặt ADS</label>
+      <input type="date" class="form-control" pattern="\d{4}-\d{2}-\d{2}"  formControlName="expiry_date_of_advertising_contract" (blur)="handleSendRequestTo()" />
+    </div>
+  </div>
+</form>

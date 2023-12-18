@@ -15,6 +15,8 @@ import * as mapboxgl from 'mapbox-gl';
 import { AdvertisingLocationInformationComponent } from './advertising-location-information/advertising-location-information.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { SendRequestToComponent } from './send-request-to/send-request-to.component';
+import { LicensingAdsComponent } from './licensing-ads/licensing-ads.component';
+import { DetailLicensingAdsComponent } from './detail-licensing-ads/detail-licensing-ads.component';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -24,7 +26,9 @@ const component = [
   MatSpinnerOverlayComponent,
   DetailReportComponent,
   AdvertisingLocationInformationComponent,
-  SendRequestToComponent
+  SendRequestToComponent,
+  LicensingAdsComponent,
+  DetailLicensingAdsComponent
 ];
 @NgModule({
   imports: [

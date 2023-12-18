@@ -1,0 +1,7 @@
+form {
+  height: 70vh !important;
+  overflow: scroll;
+}
+form::-webkit-scrollbar {
+  display: none;
+}

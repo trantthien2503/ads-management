@@ -1,0 +1,40 @@
+<form nz-form [formGroup]="licensingADSForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="ads_code">Mã điểm quảng cáo</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="ads_code" id="ads_code" readonly />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="information_company">Thông tin công ty</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="information_company" id="information_company" readonly />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Số điện thoại</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="phone_company" readonly />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Email</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="email_company" readonly />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Địa chỉ</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="address_company" readonly />
+    </nz-form-control>
+  </nz-form-item>
+
+  <editor apiKey="z9m1x58y2p8on9pw97blubw3iw2xgtdkfji9bxlh9s4lvnv9"
+  [init]="{ plugins: 'lists link image table code help wordcount', readonly : false}" formControlName="content">
+  </editor>
+
+</form>
+
+
+
