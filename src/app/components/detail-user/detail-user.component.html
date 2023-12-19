@@ -1,0 +1,43 @@
+<form nz-form [formGroup]="validateForm">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="email" id="email" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Mật khẩu</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-input-group [nzSuffix]="suffixTemplate">
+        <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="input password"
+          formControlName="password" />
+      </nz-input-group>
+      <ng-template #suffixTemplate>
+        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+          (click)="passwordVisible = !passwordVisible"></span>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Phone</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <input nz-input formControlName="phoneNumber" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Thuộc Quận</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-select formControlName="district" nzAllowClear (ngModelChange)="changeDistrict($event)">
+        <nz-option *ngFor="let district of districts" [nzValue]="district.code" [nzLabel]="district.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24">Thuộc phường</nz-form-label>
+    <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-select formControlName="ward" nzAllowClear>
+        <nz-option *ngFor="let ward of wards" [nzValue]="ward.code" [nzLabel]="ward.name"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+</form>

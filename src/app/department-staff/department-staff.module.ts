@@ -12,6 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { NgZorroAntModule } from '../ng-zorro-ant.module';
+import * as CanvasJSAngularChart from 'src/assets/canvasjs.angular.component';
+var CanvasJSChart = CanvasJSAngularChart.CanvasJSChart;
 
 const routes: Routes = [
   {
@@ -53,7 +55,8 @@ const routes: Routes = [
     ManageListsComponent,
     LicensingRequiredComponent,
     StatisticalComponent,
-    AccountComponent
+    AccountComponent,
+    CanvasJSChart
   ],
 })
 export class DepartmentStaffModule {}

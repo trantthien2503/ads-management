@@ -2,43 +2,135 @@
   <div class="row p-0 m-0 d-flex justify-content-center">
     <div class="title mb-2 d-flex align-items-center justify-content-between">
       <h4 class="m-0">Danh sách tài khoản</h4>
-      <button class="btn btn-outline-info">Tạo tài khoản mới</button>
+      <button class="btn btn-outline-info" (click)="createAccount()">Tạo tài khoản mới</button>
     </div>
-    <nz-table #basicTable [nzData]="dataReports">
+    <nz-table #basicTable [nzData]="data">
       <thead>
         <tr>
-          <th nzAlign="center">Đã xem</th>
-          <th>Công ty / Điểm đặt ADS</th>
-          <th>Trạng thái</th>
-          <th>Liên hệ</th>
-          <th>Nội dung</th>
+          <th nzAlign="center">Stt</th>
+          <th>Email</th>
+          <th>Số điện thoại</th>
+          <th>Chức vụ</th>
+          <th>Quận</th>
+          <th>Phường</th>
           <th nzAlign="center">Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data; index as i">
-          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed" F>
-          </td>
-          <td>
-
-          </td>
-          <td>
-
-          </td>
-          <td>
-
-          </td>
-          <td>
-
-          </td>
-          <td nzAlign="center">
-
-          </td>
+          <ng-container>
+            <td nzAlign="center">
+              {{ i + 1}}
+            </td>
+            <td>
+              {{data.email}}
+            </td>
+            <td>
+              {{data.phoneNumber}}
+            </td>
+            <td>
+              <div [ngSwitch]="data.role">
+                <div *ngSwitchCase="2 || '2'">
+                  <span>Cán bộ Phường</span>
+                </div>
+                <div *ngSwitchCase="3 || '3'">
+                  <span>Cán bộ Quận</span>
+                </div>
+              </div>
+            </td>
+            <td>
+              {{data.nameDistrict}}
+            </td>
+            <td>
+              {{data.nameWard}}
+            </td>
+            <td nzAlign="center">
+              <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a class="text-danger" (click)="deleteDetail(i)">Xóa</a>
+            </td>
+          </ng-container>
         </tr>
       </tbody>
     </nz-table>
   </div>
 </div>
 
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" [nzTitle]="'Thông tin tài khoản'"
+  (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <app-detail-user [user]="userSelected"></app-detail-user>
+  </ng-container>
+</nz-drawer>
+
+
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Tạo tài khoản quản lý</ng-template>
+  <ng-template #modalContent>
+    <form [formGroup]="accountForm">
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example1">Email</label>
+        <input type="email" id="form2Example1" class="form-control" formControlName="email" />
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example2">Mật khẩu</label>
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu"
+            formControlName="password" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></span>
+        </ng-template>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example2">Nhập lại mật khẩu</label>
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập lại mật khẩu"
+            formControlName="rePassword" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></span>
+        </ng-template>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label">Điện thoại</label>
+        <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Nhập số điện thoại" />
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label">Vị trí quản lý</label>
+        <nz-select formControlName="role" class="w-100">
+          <nz-option nzLabel="Cán bộ Phường" [nzValue]="2"></nz-option>
+          <nz-option nzLabel="Cán bộ Quận" [nzValue]="3"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label">Thuộc Quận</label>
+        <nz-select class="w-100" nzPlaceHolder="Chọn Quận trực thuộc" formControlName="district" nzAllowClear (ngModelChange)="changeDistrict($event)">
+          <nz-option *ngFor="let district of districts" [nzValue]="district.code" [nzLabel]="district.name"></nz-option>
+        </nz-select>
+      </div>
+
+      <div *ngIf="accountForm.value.role == 2" class="form-outline mb-4">
+        <label class="form-label">Thuộc Phường</label>
+        <nz-select class="w-100" nzPlaceHolder="Chọn Phường trực thuộc" formControlName="ward" nzAllowClear>
+          <nz-option *ngFor="let ward of wards" [nzValue]="ward.code" [nzLabel]="ward.name"></nz-option>
+        </nz-select>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="submitForm();">Tạo tài khoản</button>
+  </ng-template>
+</nz-modal>
 
 <app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

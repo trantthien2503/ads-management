@@ -23,6 +23,7 @@ import { ListPositionTypeComponent } from './list-position-type/list-position-ty
 import { ListAdsComponent } from './list-ads/list-ads.component';
 import { ListEditRequestComponent } from './list-edit-request/list-edit-request.component';
 import { ListLicensingRequiredComponent } from './list-licensing-required/list-licensing-required.component';
+import { DetailUserComponent } from './detail-user/detail-user.component';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -40,7 +41,8 @@ const component = [
   ListAdvertisingFormComponent,
   ListAdsComponent,
   ListEditRequestComponent,
-  ListLicensingRequiredComponent
+  ListLicensingRequiredComponent,
+  DetailUserComponent
 ];
 @NgModule({
   imports: [

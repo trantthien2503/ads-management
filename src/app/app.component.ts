@@ -23,8 +23,7 @@ export class AppComponent implements OnInit {
     if (stringUser) {
       this.userCurrent = JSON.parse(stringUser);
       console.log('---userCurrent', this.userCurrent);
-
-      this.navigateByRoleUser(this.userCurrent.role);
+      this.navigateByRoleUser(Number(this.userCurrent.role));
       this.callRealtimeServer();
     } else {
       this.navigateByRoleUser(1);
