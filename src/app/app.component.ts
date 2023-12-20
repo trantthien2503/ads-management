@@ -35,8 +35,12 @@ export class AppComponent implements OnInit {
    */
   callRealtimeServer() {
     setInterval(() => {
-      if (this.userCurrent.role == 2) this.getReportWard(this.userCurrent.ward);
-    }, 5000);
+      if (this.userCurrent.role == 2 || this.userCurrent.role == '2')
+        this.getReportWard(this.userCurrent.ward);
+      if(this.userCurrent.role == 4 || this.userCurrent.role == '4'){
+        this.getLicensingAds()
+      }
+    }, 1000);
   }
 
   openLogin() {
@@ -85,18 +89,33 @@ export class AppComponent implements OnInit {
 
   reportWardCount: number = 0;
   getReportWard(ward_code: any) {
-    this.crudService
-      .find('reports', 'to_ward', ward_code)
-      .subscribe((response: any) => {
+    this.crudService.find('reports', 'to_ward', ward_code).subscribe({
+      next: (response: any) => {
         if (response?.data) {
           this.reportWardCount = response.data.filter(
             (filter: any) =>
               filter.isProcess == false && filter.isViewed == false
           ).length;
         }
-      }, error =>{
+      },
+      error: (error: any) => {
         console.log('---getReportWard', error);
+      },
+    });
+  }
 
-      });
+  licensingAdsCount: number = 0;
+  licensingAdsList: Array<any> = [];
+  getLicensingAds() {
+    this.crudService.get('licensing-ads').subscribe({
+      next: ({ data }) => {
+        if (data) {
+          this.licensingAdsList = data;
+          this.licensingAdsCount = this.licensingAdsList.filter(filter => filter.isViewed == false).length
+        }
+      },
+    });
+
+
   }
 }

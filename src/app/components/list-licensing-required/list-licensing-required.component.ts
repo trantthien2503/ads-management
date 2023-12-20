@@ -44,8 +44,6 @@ export class ListLicensingRequiredComponent implements OnInit {
             .then((results) => {
               if (results) {
                 resultsObservable = results;
-                console.log('resultsObservable', resultsObservable);
-
                 map['from_email'] = results[0]?.data[0].email;
               }
             });

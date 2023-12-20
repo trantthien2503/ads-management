@@ -4,7 +4,7 @@
       <h4 class="m-0">Danh sách điểm quảng cáo {{ward?.name}} - {{district?.name}}</h4>
     </div>
     <span>Số lượng điểm: <span class="text-danger"> {{adsList.length}}</span></span>
-    <nz-table #basicTable [nzData]="adsList">
+    <nz-table #basicTable [nzData]="adsList" [nzScroll]="{ x: '1200px', y: '300px' }">
       <thead>
         <tr>
           <th>Mã ads</th>

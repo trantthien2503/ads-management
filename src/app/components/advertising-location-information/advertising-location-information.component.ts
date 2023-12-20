@@ -42,7 +42,11 @@ export class AdvertisingLocationInformationComponent implements OnInit {
     }
   }
 
-  reportAdvertising(){
-    this.outputReportAdvertising.emit(true);
+  reportAdvertising() {
+    this.outputReportAdvertising.emit({
+      ads_code: this.marker?.ads_code,
+      ward: this.marker?.data?.ward_code,
+      district: this.marker?.data?.district_code
+    });
   }
 }

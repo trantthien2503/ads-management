@@ -10,6 +10,7 @@ import { ReportedComponent } from './reported/reported.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { EmailService } from '../services/email.service';
 
 const routes: Routes = [
   {
@@ -39,5 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
   ],
   declarations: [PeopleComponent, ReportComponent, ReportedComponent],
+  providers: [EmailService],
+
 })
 export class PeopleModule {}

@@ -4,7 +4,7 @@
       <h4 class="m-0">Danh sách báo cáo từ người dân</h4>
       <button class="btn btn-outline-info" (click)="modalOpen()">Gửi yêu câu đến Sở</button>
     </div>
-    <nz-table #basicTable [nzData]="dataReports">
+    <nz-table #basicTable [nzData]="dataReports" [nzScroll]="{ x: '1200px', y: '300px' }">
       <thead>
         <tr>
           <th nzAlign="center">Đã xem</th>

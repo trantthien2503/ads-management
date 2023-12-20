@@ -3,12 +3,12 @@ import { LngLat, Marker } from "mapbox-gl";
 export interface MailOptions{
   sender_email: string;
   sender_name: string;
-  recipient_email: string;
-  recipient_name: string;
-  subject: string;
-  text_content: string;
-  html_content: string;
-  custom_id: string;
+  recipient_email: string|undefined;
+  recipient_name: string|undefined;
+  subject: string|undefined;
+  text_content: string|undefined;
+  html_content: string|undefined;
+  custom_id: string|undefined;
 }
 
 

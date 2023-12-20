@@ -1,25 +1,17 @@
 <div [@.disabled]="true">
   <mat-tab-group dynamicHeight>
-    <mat-tab label="Column Chart">
+    <mat-tab label="Yêu cầu chính sửa">
       <ng-template matTabContent>
         <canvasjs-chart
-          [options]="columnChartOptions"
-          [styles]="{ width: '100%', height: '360px' }"
-        ></canvasjs-chart>
+        [options]="pieChartOptions1"
+        [styles]="{ width: '100%', height: '360px' }"
+      ></canvasjs-chart>
       </ng-template>
     </mat-tab>
-    <mat-tab label="Pie Chart">
+    <mat-tab label="Báo cáo vi phạm">
       <ng-template matTabContent>
         <canvasjs-chart
-          [options]="pieChartOptions"
-          [styles]="{ width: '100%', height: '360px' }"
-        ></canvasjs-chart>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="Line Chart">
-      <ng-template matTabContent>
-        <canvasjs-chart
-          [options]="lineChartOptions"
+          [options]="pieChartOptions2"
           [styles]="{ width: '100%', height: '360px' }"
         ></canvasjs-chart>
       </ng-template>

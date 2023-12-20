@@ -21,7 +21,7 @@ export class CrudService {
     );
   }
 
-  find(field: string, search_field: string, search_value: string){
+  find(field: string, search_field: string, search_value: any){
     const data = {
       field,
       search_field,

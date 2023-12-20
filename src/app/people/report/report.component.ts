@@ -6,8 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Observable, ReplaySubject } from 'rxjs';
+import { MailOptions } from 'src/app/interface/interfaces';
 import { CrudService } from 'src/app/services/crud.service';
+import { EmailService } from 'src/app/services/email.service';
 import { ImagesService } from 'src/app/services/images.service';
 import { ProvinceService } from 'src/app/services/province.service';
 
@@ -43,7 +46,7 @@ export class ReportComponent implements OnInit {
     content: FormControl<string>;
     to_ward: FormControl<string>;
     to_district: FormControl<string>;
-    ads_code: FormControl<string>
+    ads_code: FormControl<string>;
   }>;
   public images: Array<any> = [
     {
@@ -64,7 +67,9 @@ export class ReportComponent implements OnInit {
     private provinceService: ProvinceService,
     private imagesService: ImagesService,
     private crudService: CrudService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router,
+    private emailService: EmailService
   ) {
     this.reportForm = this.fb.group({
       type: [0, [Validators.required]],
@@ -74,13 +79,23 @@ export class ReportComponent implements OnInit {
       content: ['', [Validators.required]],
       to_ward: ['', [Validators.required]],
       to_district: ['', [Validators.required]],
-      ads_code: ['', [Validators.required]]
+      ads_code: ['', [Validators.required]],
     });
 
+    let state = this.router.getCurrentNavigation()?.extras.state;
+
     this.provinceService.getProvenceHCM().subscribe((response: any) => {
-      if (response) {
-        if (response.districts) {
-          this.districts = response.districts;
+      if (response && response.districts) {
+        this.districts = response.districts;
+
+        if (state) {
+          this.reportForm.controls['ads_code'].setValue(
+            state['ads_code'].toString()
+          );
+          this.reportForm.controls['to_district'].setValue(state['district']);
+          this.chooseDistrict(this.reportForm.value.to_district);
+          this.reportForm.controls['to_ward'].setValue(state['ward']);
+
         }
       }
     });
@@ -90,7 +105,7 @@ export class ReportComponent implements OnInit {
 
   chooseDistrict(e: any) {
     const myDistrict: any = this.districts.filter(
-      (filter: any) => filter.code == e
+      (filter: any) => filter.code === e
     );
     this.wards = myDistrict[0].wards;
   }
@@ -149,7 +164,21 @@ export class ReportComponent implements OnInit {
           if (response) {
             console.log('---submitForm', response);
             this.loading = true;
-            this.openSnackBar('Đã gửi thành công báo cáo', 'Ok')
+            this.openSnackBar('Đã gửi thành công báo cáo', 'Ok');
+            let dataMail: MailOptions = {
+              sender_email: 'ads@gmail.com',
+              sender_name: 'admin',
+              recipient_email: data.email,
+              recipient_name: data.full_name,
+              subject:  this.typeReports.find(find => find.value === data.type).label,
+              text_content: data.content,
+              html_content: '',
+              custom_id: ''
+            }
+            this.emailService.sendEmail(dataMail).subscribe(()=>{
+              console.log('---gửi mail thành công');
+
+            })
           }
         },
         (error) => (this.loading = true)
@@ -159,7 +188,7 @@ export class ReportComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 5000
+      duration: 5000,
     });
   }
 }

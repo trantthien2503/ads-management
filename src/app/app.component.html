@@ -100,7 +100,9 @@
             </li>
             <li class="nav-item me-3 me-lg-0">
               <a class="nav-link" role="button" routerLink="/department-staff/licensing-required">
-                <span class="d-none d-lg-inline-block ml-1">Yêu cầu cấp phép</span>
+                <nz-badge [nzCount]="licensingAdsCount">
+                  <span class="d-none d-lg-inline-block ml-1">Yêu cầu cấp phép</span>
+                </nz-badge>
               </a>
             </li>
             <li class="nav-item me-3 me-lg-0">

@@ -45,4 +45,4 @@ quan1@gmail.com 1234567
 Department-staff
 boso1@gmail.com 1234567
 
-Làm tới: Tạo tài khoản và chưa làm thống kê
+Làm tới: Làm tới tạo chart

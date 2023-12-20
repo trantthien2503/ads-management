@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../services/crud.service';
 import { MarkerAndColor } from '../interface/interfaces';
@@ -49,8 +49,15 @@ export class PeopleComponent implements OnInit {
 
   outputReportAdvertising(event: any) {
     if (event) {
+      let data: NavigationExtras = {
+        state: {
+          ads_code: event.ads_code,
+          ward: event.ward,
+          district: event.district,
+        }
+      };
       this.close();
-      this.router.navigateByUrl('/people/report');
+      this.router.navigateByUrl('/people/report', data);
     }
   }
 }

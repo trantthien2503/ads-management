@@ -1,3 +1,38 @@
-<p>
-  list-edit-request works!
-</p>
+<div class="row p-0 m-0 d-flex justify-content-center">
+  <div class="title d-flex align-items-center justify-content-between">
+    <span>Số lượng: <span class="text-danger"> {{dataPositions.length}}</span></span>
+  </div>
+  <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
+    <thead>
+      <tr>
+        <th>Mã điểm</th>
+        <th>Các nội dung chỉnh sửa</th>
+        <th>Nguyên nhân</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data; index as i">
+        <td>
+          {{data.ads_code}}
+        </td>
+        <td>
+          <span *ngIf="data.advertising_form.length">
+            Hình thức quảng cáo: {{data.advertising_form}}
+          </span>
+          <br>
+          Kích thước: {{data.width}}m x {{data.height}}m<br>
+          <span *ngIf="data.type_of_billboard.length">
+            Loại bảng quảng cáo: {{data.type_of_billboard}}
+          </span>
+          <br>
+          <span *ngIf="data.position_type.length">
+            Loại vị trí: {{data.position_type}}
+          </span>
+        </td>
+        <td>
+          <div [innerHTML]="data.reason"></div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
