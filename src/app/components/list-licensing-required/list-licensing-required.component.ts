@@ -1,5 +1,5 @@
 import { filter } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { forkJoin } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
@@ -16,9 +16,6 @@ export class ListLicensingRequiredComponent implements OnInit {
   public newPositionType = '';
   constructor(
     private crudService: CrudService,
-    private _snackBar: MatSnackBar,
-    private provinceService: ProvinceService,
-
   ) {}
 
   ngOnInit() {
@@ -53,5 +50,46 @@ export class ListLicensingRequiredComponent implements OnInit {
         this.dataPositions = response.data.filter((filter: any) => filter.isCancel == false);
       }
     });
+  }
+
+
+  changeViewed(event: any, idUpdate: string) {
+    if (event) {
+      const update = {
+        isViewed: event,
+      };
+      this.update('licensing-ads', idUpdate, update);
+    }
+  }
+
+  /** Hàm thực hiện câp nhật theo trường
+   *
+   * @param field: Tên collection 'reports'
+   * @param idUpdate: id trường
+   * @param objectUpdate: dữ liệu cập nhât
+   * vd: update = {
+        isViewed: event
+      }
+   */
+  update(field: string, idUpdate: string, objectUpdate: any) {
+    this.crudService
+      .update(field, idUpdate, objectUpdate)
+      .subscribe((response: any) => {
+        if (response) {
+          console.log('----update', response);
+        }
+      });
+  }
+
+
+  updateProcess(event: any, data: any) {
+    if (event == true) {
+      const update = {
+        isProcess: event,
+      };
+      this.update('licensing-ads', data.id, update);
+      data.isViewed = true;
+      this.changeViewed(data.isViewed, data.id);
+    }
   }
 }

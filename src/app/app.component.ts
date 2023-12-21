@@ -106,6 +106,8 @@ export class AppComponent implements OnInit {
 
   licensingAdsCount: number = 0;
   licensingAdsList: Array<any> = [];
+  editAdsCount: number = 0;
+  editAdsList: Array<any> = [];
   getLicensingAds() {
     this.crudService.get('licensing-ads').subscribe({
       next: ({ data }) => {
@@ -116,6 +118,18 @@ export class AppComponent implements OnInit {
       },
     });
 
-
+    this.crudService.find('reports', 'type', 1).subscribe({
+      next: ({ data }) => {
+        if (data) {
+          this.editAdsList = data;
+          this.editAdsCount = this.editAdsList.filter(
+            (filter) => filter.isViewed == false
+          ).length;
+        }
+      },
+      error: (error: any) => {
+        console.log('error', error);
+      },
+    });
   }
 }

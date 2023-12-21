@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data; index as i">
-          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"a
+          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
             (nzCheckedChange)="changeViewed($event, data.id)">
           </td>
           <td>

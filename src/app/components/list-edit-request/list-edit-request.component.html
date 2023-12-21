@@ -5,15 +5,26 @@
   <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
     <thead>
       <tr>
+        <th nzLeft nzWidth="6vw">Đã xem</th>
         <th>Mã điểm</th>
+        <th>Trạng thái</th>
         <th>Các nội dung chỉnh sửa</th>
         <th>Nguyên nhân</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data; index as i">
+        <td nzLeft [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+          (nzCheckedChange)="changeViewed($event, data.id); data.isViewed = $event">
+        </td>
         <td>
           {{data.ads_code}}
+        </td>
+        <td>
+          <nz-select (ngModelChange)="updateProcess($event, data)" [disabled]="data.isProcess == true" nzShowSearch nzAllowClear [(ngModel)]="data.isProcess">
+            <nz-option nzLabel="Đã được xử lí" [nzValue]="true"></nz-option>
+            <nz-option nzLabel="Chưa xử lí" [nzValue]="false"></nz-option>
+          </nz-select>
         </td>
         <td>
           <span *ngIf="data.advertising_form.length">
@@ -32,6 +43,7 @@
         <td>
           <div [innerHTML]="data.reason"></div>
         </td>
+
       </tr>
     </tbody>
   </nz-table>

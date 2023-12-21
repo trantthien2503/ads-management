@@ -3,43 +3,63 @@
     <span>Số lượng: <span class="text-danger"> {{dataPositions.length}}</span></span>
     <button class="btn btn-success" (click)="createData()">Thêm</button>
   </div>
-  <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
+  <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '2000px', y: '300px' }">
     <thead>
       <tr>
-        <th>STT</th>
-        <th>Mã điểm</th>
+        <th nzLeft>STT</th>
+        <th nzLeft>Mã điểm</th>
         <th>Phường</th>
         <th>Quận</th>
         <th>Đia chỉ</th>
         <th>Kích thước</th>
-        <th>Hình quảng cáo</th>
-        <th>Loại bảng quảng cáo</th>
-        <th>Hình thức quảng cáo</th>
+        <th nzWidth="15vw">Hình quảng cáo</th>
+        <th nzWidth="15vw">Loại bảng quảng cáo</th>
+        <th nzWidth="15vw">Hình thức quảng cáo</th>
         <th>Trạng thái</th>
-        <th>Thời hạn</th>
+        <th>Thời hạn bắt đầu</th>
+        <th>Thời hạn kết thúc</th>
         <th nzRight nzAlign="center">Thao tác</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data; index as i">
-        <td>{{i + 1}}</td>
-        <td>{{data.ads_code}}</td>
+        <td nzLeft>{{i + 1}}</td>
+        <td nzLeft>{{data.ads_code}}</td>
         <td>{{data.nameDistrict}}</td>
         <td>{{data.nameWard}}</td>
         <td>{{data.data.address}}</td>
         <td>{{data.data.width}}m x {{data.data.height}}m</td>
-        <td>{{data.data.position_type}}</td>
-        <td>{{data.data.type_of_billboard}}</td>
-        <td>{{data.data.advertising_form}}</td>
         <td>
-          <nz-select nzShowSearch nzAllowClear [(ngModel)]="data.data.is_zoning">
+          <nz-select class="w-100" (ngModelChange)="update(data)" nzPlaceHolder="Chọn hình ads" nzShowSearch
+            nzAllowClear [(ngModel)]="data.data.position_type">
+            <nz-option *ngFor="let item of positionTypeList" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <nz-select class="w-100" (ngModelChange)="update(data)" nzPlaceHolder="Chọn loại bảng ads" nzShowSearch
+            nzAllowClear [(ngModel)]="data.data.type_of_billboard">
+            <nz-option *ngFor="let item of billboardList" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <nz-select class="w-100" (ngModelChange)="update(data)" nzPlaceHolder="Chọn hình thức ads" nzShowSearch
+            nzAllowClear [(ngModel)]="data.data.advertising_form">
+            <nz-option *ngFor="let item of advertisingList" [nzLabel]="item.name" [nzValue]="item.name"></nz-option>
+          </nz-select>
+        </td>
+        <td>
+          <nz-select (ngModelChange)="update(data)" nzShowSearch nzAllowClear [(ngModel)]="data.data.is_zoning">
             <nz-option nzLabel="Đã huy hoạch" [nzValue]="true"></nz-option>
             <nz-option nzLabel="Chưa huy hoạch" [nzValue]="false"></nz-option>
           </nz-select>
         </td>
         <td>
-          {{data.data.start_date_of_advertising_contract | date:'dd/MM/yyyy'}}
-          - {{data.data.expiry_date_of_advertising_contract | date:'dd/MM/yyyy'}}
+          <nz-date-picker (ngModelChange)="update(data)" class="w-100" nzBorderless
+            [(ngModel)]="data.data.start_date_of_advertising_contract" nzFormat="dd/MM/yyyy"></nz-date-picker>
+        </td>
+        <td>
+          <nz-date-picker (ngModelChange)="update(data)" class="w-100" nzBorderless
+            [(ngModel)]="data.data.expiry_date_of_advertising_contract" nzFormat="dd/MM/yyyy"></nz-date-picker>
         </td>
         <td nzRight nzAlign="center">
           <a class="text-danger">Xóa</a>

@@ -3,12 +3,24 @@
     <div class="title d-flex align-items-center">
       <h4 class="m-0">Xử lý yêu cầu</h4>
     </div>
-    <nz-tabset [nzSelectedIndex]="">
-      <nz-tab nzTitle="Yêu cầu chỉnh sửa">
+    <nz-tabset [(nzSelectedIndex)]="selectedIndex">
+      <nz-tab [nzTitle]="templateTitleEdit">
         <app-list-edit-request></app-list-edit-request>
+        <ng-template #templateTitleEdit>
+          <span *ngIf="editAdsCount == 0">{{titleEdit}}</span>
+          <span *ngIf="editAdsCount > 0">{{titleEdit}}
+            <span class="text-danger">({{editAdsCount}})</span>
+          </span>
+        </ng-template>
       </nz-tab>
-      <nz-tab nzTitle="Yêu cầu cấp phép">
-        <app-list-licensing-required></app-list-licensing-required>
+      <nz-tab [nzTitle]="templateTitleLicensing">
+        <app-list-licensing-required ></app-list-licensing-required>
+        <ng-template #templateTitleLicensing>
+          <span *ngIf="licensingAdsCount == 0">{{titleLicensing}}</span>
+          <span *ngIf="licensingAdsCount > 0">{{titleLicensing}}
+            <span class="text-danger">({{licensingAdsCount}})</span>
+          </span>
+        </ng-template>
       </nz-tab>
     </nz-tabset>
   </div>

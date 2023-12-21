@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { forkJoin } from 'rxjs';
 import { CrudService } from 'src/app/services/crud.service';
-import { ProvinceService } from 'src/app/services/province.service';
 
 @Component({
   selector: 'app-list-edit-request',
@@ -15,8 +12,6 @@ export class ListEditRequestComponent implements OnInit {
   public newPositionType = '';
   constructor(
     private crudService: CrudService,
-    private _snackBar: MatSnackBar,
-    private provinceService: ProvinceService
   ) {}
 
   ngOnInit() {
@@ -28,7 +23,6 @@ export class ListEditRequestComponent implements OnInit {
       next: ({ data }) => {
         if (data) {
           console.log(data);
-
           this.dataPositions = data;
         }
       },
@@ -36,5 +30,45 @@ export class ListEditRequestComponent implements OnInit {
         console.log('error', error);
       },
     });
+  }
+
+  changeViewed(event: any, idUpdate: string) {
+    if (event) {
+      const update = {
+        isViewed: event,
+      };
+      this.update('reports', idUpdate, update);
+    }
+  }
+
+  /** Hàm thực hiện câp nhật theo trường
+   *
+   * @param field: Tên collection 'reports'
+   * @param idUpdate: id trường
+   * @param objectUpdate: dữ liệu cập nhât
+   * vd: update = {
+        isViewed: event
+      }
+   */
+  update(field: string, idUpdate: string, objectUpdate: any) {
+    this.crudService
+      .update(field, idUpdate, objectUpdate)
+      .subscribe((response: any) => {
+        if (response) {
+          console.log('----update', response);
+        }
+      });
+  }
+
+
+  updateProcess(event: any, data: any) {
+    if (event == true) {
+      const update = {
+        isProcess: event,
+      };
+      this.update('reports', data.id, update);
+      data.isViewed = true;
+      this.changeViewed(data.isViewed, data.id);
+    }
   }
 }

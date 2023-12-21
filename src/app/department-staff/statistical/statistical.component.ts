@@ -70,6 +70,8 @@ export class StatisticalComponent implements OnInit {
   public reports: Array<any> = [];
   public licensingADS: Array<any> = [];
   public users: Array<any> = [];
+  public advertisingPanels: Array<any> = [];
+  public loading = false;
   constructor(private crudService: CrudService) {}
 
   ngOnInit() {
@@ -77,17 +79,21 @@ export class StatisticalComponent implements OnInit {
   }
 
   getDatas() {
+    this.loading = false;
     const observable1 = this.crudService.get('reports');
     const observable2 = this.crudService.get('licensing-ads');
     const observable3 = this.crudService.get('users');
-    forkJoin([observable1, observable2, observable3]).subscribe(
-      ([response1, response2, response3]: any) => {
+    const observable4 = this.crudService.get('advertising-panels');
+    forkJoin([observable1, observable2, observable3, observable4]).subscribe({
+      next: ([response1, response2, response3, response4]: any) => {
         if (response1) {
           const data: any[] = response1.data;
           const dataPoints: { label: string; y: number }[] = [];
 
           this.typeReports.forEach((report) => {
-            const count = data.filter((item) => item.type === report.value).length;
+            const count = data.filter(
+              (item) => item.type === report.value
+            ).length;
             if (count > 0) {
               const add = {
                 label: report.label,
@@ -99,26 +105,29 @@ export class StatisticalComponent implements OnInit {
 
           this.pieChartOptions2.data[0].dataPoints = dataPoints;
         }
-        if (response2 && response3) {
+        if (response2 && response3 && response4) {
+
+          this.advertisingPanels = response4.data;
           this.users = response3.data;
           const data: any[] = response2.data;
           const dataPoints: { label: string; y: number }[] = [];
-          this.users.forEach((user)=>{
-            const count = data.filter((item) => item.user_id === user.id).length;
+          this.advertisingPanels.forEach((item) => {
+            const count = data.filter(
+              (filter) => filter.ads_code === item.ads_code
+            ).length;
             if (count > 0) {
               const add = {
-                label: user.email,
+                label: `Điểm yêu cầu ${item.ads_code}`,
                 y: count,
               };
               dataPoints.push(add);
             }
-          })
+          });
 
           this.pieChartOptions1.data[0].dataPoints = dataPoints;
-
         }
-
-      }
-    );
+      },
+      complete: () => (this.loading = true),
+    });
   }
 }

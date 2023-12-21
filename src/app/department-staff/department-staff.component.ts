@@ -6,26 +6,20 @@ import { CrudService } from '../services/crud.service';
 @Component({
   selector: 'app-department-staff',
   templateUrl: './department-staff.component.html',
-  styleUrls: ['./department-staff.component.css']
+  styleUrls: ['./department-staff.component.css'],
 })
 export class DepartmentStaffComponent implements OnInit {
-
   markers: MarkerAndColor[] = [];
   public markerSelected?: MarkerAndColor;
   public loading = false;
 
   constructor(private crudService: CrudService, private router: Router) {
-    this.crudService.get('advertising-panels').subscribe(
-      (response: any) => {
-        if (response) {
-          if (response.data) {
-            this.markers = response.data;
-            this.loading = true;
-          }
-        }
+    this.crudService.get('advertising-panels').subscribe({
+      next: ({ data }) => {
+        this.markers = data;
       },
-      (err) => (this.loading = true)
-    );
+      complete: () => (this.loading = true),
+    });
   }
 
   ngOnInit() {}

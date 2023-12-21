@@ -5,6 +5,7 @@
   <nz-table #basicTable [nzData]="dataPositions" [nzScroll]="{ x: '1200px', y: '300px' }">
     <thead>
       <tr>
+        <th nzLeft nzWidth="6vw">Đã xem</th>
         <th nzLeft>Công ty / Điểm đặt ADS</th>
         <th>Trạng thái</th>
         <th>Liên hệ</th>
@@ -14,12 +15,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data; index as i">
+        <td nzLeft [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+          (nzCheckedChange)="changeViewed($event, data.id);  data.isViewed = $event">
+        </td>
         <td nzLeft>
           {{data.information_company}}<br>
           <b>Mã điểm:</b> {{data.ads_code}}
         </td>
         <td>
-          <nz-select [disabled]="data.isProcess == true" nzShowSearch nzAllowClear [(ngModel)]="data.isProcess">
+          <nz-select (ngModelChange)="updateProcess($event, data)" [disabled]="data.isProcess == true" nzShowSearch nzAllowClear [(ngModel)]="data.isProcess">
             <nz-option nzLabel="Đã được xử lí" [nzValue]="true"></nz-option>
             <nz-option nzLabel="Chưa xử lí" [nzValue]="false"></nz-option>
           </nz-select>
