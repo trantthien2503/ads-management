@@ -2,30 +2,30 @@
   <!-- Email input -->
   <div class="form-outline mb-4">
     <label class="form-label" for="form2Example1">Email</label>
-    <input type="email" id="form2Example1" class="form-control" formControlName="email"/>
+    <input type="email" id="form2Example1" class="form-control" formControlName="email" />
   </div>
 
   <!-- Password input -->
   <div class="form-outline mb-4">
     <label class="form-label" for="form2Example2">Password</label>
-    <input type="password" id="form2Example2" class="form-control" formControlName="password"/>
+    <input type="password" id="form2Example2" class="form-control" formControlName="password" />
   </div>
 
   <div class="form-outline mb-4 d-flex align-items-center">
-    <input class="form-check-input" type="checkbox" checked/>
+    <input class="form-check-input" type="checkbox" checked />
     <label class="form-check-label" for="form2Example31"> Remember me </label>
   </div>
 
   <div class="row m-0 p-0 mb-4 d-flex align-items-center">
-    <button type="button" class="btn btn-primary btn-block"  (click)="login()" [disabled]="!loginForm.valid"
-    [style.opacity]="!loginForm.valid? .5: 1">Sign in</button>
+    <button type="button" class="btn btn-primary btn-block" (click)="login()" [disabled]="!loginForm.valid"
+      [style.opacity]="!loginForm.valid? .5: 1">Sign in</button>
   </div>
 
   <!-- Submit button -->
 
   <!-- Register buttons -->
   <div class="text-center">
-    <p>Not a member? <a href="#!">Forgot password?</a></p>
+    <p>Not a member? <a (click)="modalOpen()">Forgot password?</a></p>
     <p>or sign up with:</p>
     <button type="button" class="btn btn-link btn-floating mx-1">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook"
@@ -44,3 +44,66 @@
     </button>
   </div>
 </form>
+
+
+<nz-modal [nzStyle]="{ top: '20vh', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Password Reset</ng-template>
+  <ng-template #modalContent>
+    <app-reset-password *ngIf="wait == false" (mailReset)="mailReset($event)"></app-reset-password>
+    <div *ngIf="wait == true">
+      <div class="form-outline d-flex align-items-center">
+        <div class="form-outline">
+          <label class="form-label">Nhập mã xác minh</label>
+          <input type="text" class="form-control" [(ngModel)]="verificationCode" />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #modalFooter>
+    <div class="d-flex justify-content-between mt-4">
+      <a class="btn btn-primary" (click)="modalCancel()">Login</a>
+      <a *ngIf="wait == false" class="btn btn-primary" (click)="resetPassword()">Reset password</a>
+      <a *ngIf="wait == true" class="btn btn-primary" (click)="checkVerificationCode(verificationCode)">Xác minh</a>
+    </div>
+  </ng-template>
+</nz-modal>
+
+
+<!-- Đặt lại pass -->
+<nz-modal [nzStyle]="{ top: '20vh', height: '30vh' }" [(nzVisible)]="isVisiblePrePassword" [nzTitle]="modalTitlePw"
+  [nzContent]="modalContentPw" [nzFooter]="modalFooterPw" (nzOnCancel)="prePasswordCancel()">
+  <ng-template #modalTitlePw>Đặt lại mật khẩu</ng-template>
+  <ng-template #modalContentPw>
+    <form style="height: 25vh !important" [formGroup]="preResetPasswordForm">
+      <div class="form-outline ">
+        <label class="form-label" for="form2Example2">Mật khẩu mới</label>
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập mật khẩu"
+            formControlName="new_password" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></span>
+        </ng-template>
+      </div>
+
+      <div class="form-outline">
+        <label class="form-label" for="form2Example2">Nhập lại mật khẩu mới</label>
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Nhập lại mật khẩu"
+            formControlName="pre_new_password" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></span>
+        </ng-template>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #modalFooterPw>
+    <div class="d-flex justify-content-center align-items-center">
+      <a class="btn btn-primary" (click)="updatePassword()">Cập nhật</a>
+    </div>
+  </ng-template>
+</nz-modal>

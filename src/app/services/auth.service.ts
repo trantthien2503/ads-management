@@ -36,4 +36,15 @@ export class AuthService {
     }
     return this.httpClient.post<any>(`${this.SERVERB_URL}/api/update-by-fields`, post);
   }
+
+  generateVerificationCode(){
+    return this.httpClient.post<any>(`${this.SERVERB_URL}/api/generate-verification-code`, {});
+  }
+
+  checkVerificationCode(verification_code: string){
+    let post = {
+      verification_code: verification_code,
+    }
+    return this.httpClient.post<any>(`${this.SERVERB_URL}/api/check-verification-code`, post);
+  }
 }

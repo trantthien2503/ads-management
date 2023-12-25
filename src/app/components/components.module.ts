@@ -24,6 +24,8 @@ import { ListAdsComponent } from './list-ads/list-ads.component';
 import { ListEditRequestComponent } from './list-edit-request/list-edit-request.component';
 import { ListLicensingRequiredComponent } from './list-licensing-required/list-licensing-required.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { EmailService } from '../services/email.service';
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoidHJhbnR0aGllbjI1MDMiLCJhIjoiY2xwOXMzZmwxMDA1dzJscGtteGliYXlyeiJ9.LmRPXRxz4pWjnAe2gbEmXA';
 const component = [
   JsmapComponent,
@@ -42,7 +44,8 @@ const component = [
   ListAdsComponent,
   ListEditRequestComponent,
   ListLicensingRequiredComponent,
-  DetailUserComponent
+  DetailUserComponent,
+  ResetPasswordComponent
 ];
 @NgModule({
   imports: [
@@ -57,5 +60,6 @@ const component = [
   ],
   declarations: component,
   exports: component,
+  providers: [EmailService,]
 })
 export class ComponentsModule {}
