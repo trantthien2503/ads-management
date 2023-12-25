@@ -1,3 +1,82 @@
-<p>
-  licensing works!
-</p>
+<div class="container-fluid">
+  <div class="row p-0 m-0 d-flex justify-content-center">
+    <div class="title mb-2 d-flex align-items-center justify-content-between">
+      <h4 class="m-0">Danh sách cấp phép</h4>
+      <button class="btn btn-outline-info" (click)="modalOpen()">Cấp phép ADS</button>
+    </div>
+    <nz-table #basicTable [nzData]="dataReports">
+      <thead>
+        <tr>
+          <th nzAlign="center">Đã xem</th>
+          <th>Công ty / Điểm đặt ADS</th>
+          <th>Trạng thái</th>
+          <th>Liên hệ</th>
+          <th>Nội dung</th>
+          <th nzAlign="center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data; index as i">
+          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+            (nzCheckedChange)="changeViewed($event, data.id)">
+          </td>
+          <td>
+            {{data.information_company}}<br>
+            <b>Mã điểm:</b> {{data.ads_code}}
+          </td>
+          <td>
+            <span *ngIf="data.isCancel == true" class="text-danger">Đã hủy yêu cầu</span>
+            <span *ngIf="data.isCancel == false"
+              [class]="data.isProcess == true? 'text-success': 'text-danger'">{{data.isProcess == true? 'Đã xử lý'
+              : 'Chưa xử lý' }}</span>
+          </td>
+          <td>
+            Phone: {{data.phone_company}} <br>
+            Email: {{data.email_company}} <br>
+            Địa chỉ: {{data.address_company}} <br>
+          </td>
+          <td>
+            <div [innerHTML]="data.content"></div>
+          </td>
+          <td nzAlign="center">
+            <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="text-danger" (click)="deleteDetail(i)">Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" [nzTitle]="title" (nzOnClose)="close()"
+  [nzFooter]="licensingSelected?.isProcess == false? modalFooterCancel:''">
+  <ng-container *nzDrawerContent>
+    <app-detail-licensing-ads [data]="licensingSelected"
+      (outputCompleteReport)="outputCompleteReport($event)"></app-detail-licensing-ads>
+  </ng-container>
+  <ng-template #title>
+    Chi tiết cấp phép
+    <small *ngIf="licensingSelected?.isProcess == true" class="text-success">(Đã xử lý)</small>
+    <small *ngIf="licensingSelected?.isCancel == true" class="text-danger">(Đã hủy yêu cầu)</small>
+  </ng-template>
+  <ng-template #modalFooterCancel>
+    <button *ngIf="licensingSelected?.isCancel == false" nz-button nzType="primary"
+      (click)="cancelLicensiing(licensingSelected);">Hủy yêu cầu</button>
+  </ng-template>
+</nz-drawer>
+
+
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle"
+  [nzContent]="modalContent" [nzFooter]="modalFooter" (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Tạo yêu cầu ADS</ng-template>
+  <ng-template #modalContent>
+    <app-licensing-ads (outputLicensingAds)="outputLicensingAds($event)"></app-licensing-ads>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="submitForm();">Yêu cầu</button>
+  </ng-template>
+</nz-modal>
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>

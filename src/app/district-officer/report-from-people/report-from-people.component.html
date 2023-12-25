@@ -1,3 +1,67 @@
-<p>
-  report-from-people works!
-</p>
+<div class="container-fluid">
+  <div class="row p-0 m-0 d-flex justify-content-center">
+    <div class="title mb-2 d-flex align-items-center justify-content-between">
+      <h4 class="m-0">Danh sách báo cáo từ người dân</h4>
+      <button class="btn btn-outline-info" (click)="modalOpen()">Gửi yêu câu đến Sở</button>
+    </div>
+    <nz-table #basicTable [nzData]="dataReports" [nzScroll]="{ x: '1200px', y: '300px' }">
+      <thead>
+        <tr>
+          <th nzAlign="center">Đã xem</th>
+          <th>Tên</th>
+          <th>Trạng thái</th>
+          <th>Loại báo cáo</th>
+          <th>Địa điểm thuộc</th>
+          <th nzAlign="center">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data; index as i">
+          <td [nzChecked]="data.isViewed" [nzDisabled]="data.isViewed"
+            (nzCheckedChange)="changeViewed($event, data.id)">
+          </td>
+          <td>
+            {{data.full_name}} <br>
+            <b>Mã điểm:</b> {{data.ads_code}}
+          </td>
+          <td><span [class]="data.isProcess == true? 'text-success': 'text-danger'">{{data.isProcess == true? 'Đã xử lý'
+              : 'Chưa xử lý' }}</span></td>
+          <td>{{generateTypeReport(data.type)}}</td>
+          <td>{{data.nameWard}} - {{data.nameDistrict}}</td>
+          <td nzAlign="center">
+            <a class="text-success" (click)="seeDetail(data)">Chi tiết</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="text-danger" (click)="deleteDetail(i)">Xóa</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" [nzTitle]="title" (nzOnClose)="close()">
+  <ng-container *nzDrawerContent>
+    <app-detail-report [data]="reportSelected"
+      (outputCompleteReport)="outputCompleteReport($event)"></app-detail-report>
+  </ng-container>
+  <ng-template #title>
+    Thông tin báo cáo
+    <small *ngIf="reportSelected?.isProcess == true" class="text-success">(Đã xử lý)</small>
+  </ng-template>
+</nz-drawer>
+
+
+<nz-modal [nzStyle]="{ top: '20px', height: '90vh' }" [(nzVisible)]="isVisibleModal" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+  (nzOnCancel)="modalCancel()">
+  <ng-template #modalTitle>Gửi yêu cầu đến Sở VH-TT</ng-template>
+  <ng-template #modalContent>
+    <app-send-request-to (outputSendRequestTo)="outputSendRequestTo($event)"></app-send-request-to>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="primary" (click)="submitForm();" >Gửi nội dung</button>
+  </ng-template>
+</nz-modal>
+
+<app-mat-spinner-overlay [overlay]="!loading"></app-mat-spinner-overlay>
+
